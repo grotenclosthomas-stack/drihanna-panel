@@ -1,5 +1,11 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Drihanna Panel</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23B14E2C'/%3E%3Ctext x='32' y='45' font-family='Georgia,serif' font-size='40' font-weight='600' fill='%23F4EAD8' text-anchor='middle'%3ED%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Nunito+Sans:wght@300;400;600;700;800&display=swap">
 <style>
@@ -32,7 +38,8 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--arena);color:var(--tinta);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+html,body{margin:0;padding:0}
+body{background:var(--arena);color:var(--tinta);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--arena)}
 h1,h2,h3{font-family:var(--display);font-weight:600;text-wrap:balance;margin:0;font-variation-settings:"SOFT" 100,"WONK" 1}
 a{color:inherit}
@@ -78,8 +85,9 @@ a{color:inherit}
 .sec-head h2{font-size:clamp(1.25rem,2.6vw,1.6rem);font-weight:600}
 .lede{max-width:62ch;color:var(--tinta-soft);margin:0 0 30px}
 
-/* ——— Alert ——— */
-.alert{display:flex;gap:16px;align-items:flex-start;border:1px solid var(--crit);border-left-width:5px;border-radius:3px;padding:18px 20px;background:color-mix(in srgb,var(--crit) 8%,var(--arena));margin-bottom:34px}
+/* ——— Hinweise ——— */
+.alert{display:flex;gap:16px;align-items:flex-start;border:1px solid var(--warn);border-left-width:5px;border-radius:3px;padding:18px 20px;background:color-mix(in srgb,var(--warn) 8%,var(--arena));margin-bottom:34px}
+.alert.info{border-color:var(--oliva);background:color-mix(in srgb,var(--oliva) 8%,var(--arena))}
 .alert strong{font-family:var(--display);font-size:1.05rem}
 .alert p{margin:4px 0 0;color:var(--tinta-soft);font-size:14.5px}
 
@@ -140,6 +148,7 @@ tfoot td{font-weight:800;border-top:2px solid var(--linea-stark);border-bottom:n
 .tasks{display:flex;flex-direction:column;gap:1px;background:var(--linea);border:1px solid var(--linea)}
 .task{background:var(--arena);display:grid;grid-template-columns:82px minmax(0,1fr) auto;gap:16px;align-items:start;padding:16px 18px}
 @media(max-width:640px){.task{grid-template-columns:1fr;gap:9px}}
+.task.done{background:color-mix(in srgb,var(--ok) 6%,var(--arena))}
 .task .when{font-size:10.5px;letter-spacing:.17em;text-transform:uppercase;font-weight:800;color:var(--barro);padding-top:3px}
 .task .what{min-width:0}
 .task .what b{display:block;font-weight:700;font-size:15px}
@@ -164,40 +173,44 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
 .note{font-size:12.5px;color:var(--tinta-soft);margin-top:14px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
+</head>
+<body>
 
 <header class="hero">
   <div class="hero-photo"></div>
   <div class="hero-inner wrap">
     <div class="hero-mark">Drihanna &times; adsupply</div>
-    <div class="eyebrow">Panel de mando &middot; Stand 28. Oktober 2026</div>
+    <div class="eyebrow">Panel de mando &middot; Stand 29. Oktober 2026</div>
     <h1>Hola,<br><em>Colonia.</em></h1>
     <p class="hero-sub">Spanisches Lebensgef&uuml;hl in K&ouml;ln-Dellbr&uuml;ck &mdash; Store, Events und Onlineshop in einer Zahlen- und Aufgabenansicht.</p>
     <div class="hero-pills">
       <a class="pill" href="#pulso">Der Puls</a>
+      <a class="pill" href="#tienda">Shop</a>
       <a class="pill" href="#tareas">Aufgaben</a>
     </div>
     <div class="dots"><i></i><i class="on"></i><i></i></div>
   </div>
   <div class="hero-foot"><div class="wrap">
     <span>12-Monats-Strategie 2026&ndash;2027</span>
-    <span>Meta &middot; SEO &middot; Shop</span>
+    <span>Meta &middot; Shop &middot; SEO</span>
     <span>Budgetbewusst &middot; Schrittweise &middot; Messbar</span>
   </div></div>
 </header>
 
 <nav class="nav"><div class="wrap">
   <a href="#pulso">Puls</a><a href="#meta">Meta 2026</a><a href="#campanas">Kampagnen</a>
-  <a href="#canales">Kan&auml;le</a><a href="#camino">Fahrplan</a><a href="#tareas">Aufgaben</a><a href="#decisiones">Freigaben</a>
+  <a href="#tienda">Shop</a><a href="#canales">Kan&auml;le</a><a href="#camino">Fahrplan</a>
+  <a href="#tareas">Aufgaben</a><a href="#decisiones">Freigaben</a>
 </div></nav>
 
 <section class="band" id="pulso"><div class="wrap">
   <div class="sec-head"><span class="es">El pulso</span><h2>Meta, letzte 30 Tage</h2></div>
-  <p class="lede">Verglichen mit den 30 Tagen davor. Die Zahlen kommen live aus dem Werbekonto &bdquo;Drihanna&ldquo; &uuml;ber Supermetrics.</p>
+  <p class="lede">Verglichen mit den 30 Tagen davor. Die Zahlen kommen direkt aus dem Werbekonto Drihanna.</p>
 
   <div class="alert">
     <div>
-      <strong>Die Auslieferung steht still.</strong>
-      <p>Letzter Tag mit Ausgaben war der 7. Oktober 2026 (3,36&nbsp;&euro;). Seitdem keine Impressionen. Der R&uuml;ckgang in allen Werten unten ist dadurch erkl&auml;rt, nicht durch schlechtere Leistung &mdash; die Klickpreise sind sogar g&uuml;nstiger geworden. Erste Aufgabe im November: Ursache kl&auml;ren und mit 800&nbsp;&euro; neu starten.</p>
+      <strong>Seit dem 7. Oktober l&auml;uft keine Anzeige mehr.</strong>
+      <p>Letzter Tag mit Ausgaben war der 7. Oktober 2026 (3,36&nbsp;&euro;). Der R&uuml;ckgang in allen Werten unten kommt allein daher &mdash; die Leistung war nicht schlechter, die Klickpreise sind sogar g&uuml;nstiger geworden. Mit dem Neustart im November und 800&nbsp;&euro; Budget l&auml;uft die Auslieferung wieder an.</p>
     </div>
   </div>
 
@@ -209,7 +222,7 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
     <div class="kpi"><div class="lab">Landingpage-Aufrufe</div><div class="val">1.035</div><div class="cmp"><span class="trend dn">&minus;61,1&nbsp;%</span> &middot; vorher 2.661</div></div>
     <div class="kpi"><div class="lab">Kosten je LP-Aufruf</div><div class="val">0,13&nbsp;&euro;</div><div class="cmp"><span class="trend up">&minus;8,3&nbsp;%</span> &middot; g&uuml;nstiger als vorher</div></div>
     <div class="kpi"><div class="lab">Klickpreis (Link)</div><div class="val">0,11&nbsp;&euro;</div><div class="cmp"><span class="trend up">&minus;6,4&nbsp;%</span> &middot; vorher 0,12&nbsp;&euro;</div></div>
-    <div class="kpi"><div class="lab">K&auml;ufe &uuml;ber Meta</div><div class="val">0</div><div class="cmp"><span class="trend fl">keine erfasst</span> &middot; Produktverkauf noch nicht aktiv</div></div>
+    <div class="kpi"><div class="lab">K&auml;ufe &uuml;ber Meta</div><div class="val">0</div><div class="cmp"><span class="trend fl">nicht zugeordnet</span> &middot; Shop verkauft, Meta sieht es nicht</div></div>
   </div>
 </div></section>
 
@@ -235,7 +248,7 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
 
 <section class="band" id="campanas"><div class="wrap">
   <div class="sec-head"><span class="es">Campa&ntilde;as</span><h2>Was aktuell im Konto liegt</h2></div>
-  <p class="lede">Letzte 90 Tage. Es l&auml;uft eine einzige Kampagne mit dem Ziel Traffic &mdash; sie liefert g&uuml;nstige Besuche, aber keine messbaren K&auml;ufe, weil online bislang nur Events kaufbar waren.</p>
+  <p class="lede">Letzte 90 Tage. Es l&auml;uft eine einzige Kampagne mit dem Ziel Traffic &mdash; sie liefert g&uuml;nstige Besuche, aber keine zugeordneten K&auml;ufe.</p>
   <div class="scroller"><table>
     <thead><tr><th>Kampagne</th><th>Ziel</th><th>Ausgaben</th><th>Impressionen</th><th>Link-Klicks</th><th>CTR</th><th>CPC</th><th>LP-Aufrufe</th><th>K&auml;ufe</th></tr></thead>
     <tbody>
@@ -245,26 +258,75 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
   <p class="note">Aus Traffic-Bestwerten l&auml;sst sich keine Kaufleistung ableiten. Die Motive Mode_Schmuck_7 und _9 werden als Traffic-Referenz &uuml;bernommen, ihre Kaufwirkung wird getrennt neu gemessen.</p>
 </div></section>
 
+<section class="band" id="tienda"><div class="wrap">
+  <div class="sec-head"><span class="es">La tienda</span><h2>Shopify, letzte 30 Tage</h2></div>
+  <p class="lede">Verglichen mit den 30 Tagen davor. Der Shop verkauft Events und Produkte &mdash; und zwar deutlich mehr, als die Werbekonten erkennen lassen.</p>
+
+  <div class="alert info">
+    <div>
+      <strong>Der Shop verkauft, nur wei&szlig; Meta nichts davon.</strong>
+      <p>M&auml;rz bis Oktober stehen 124.011&nbsp;&euro; Umsatz aus 2.159 Bestellungen in Shopify &mdash; in Meta sind es null K&auml;ufe. Das ist eine L&uuml;cke in der Messung, kein fehlendes Sortiment. Solange sie besteht, l&auml;sst sich nicht sagen, welche Anzeige welchen Verkauf ausgel&ouml;st hat, und die Kampagnen k&ouml;nnen nicht auf Kaufwert optimiert werden.</p>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="lab">Umsatz</div><div class="val">15.147&nbsp;&euro;</div><div class="cmp"><span class="trend dn">&minus;22,0&nbsp;%</span> &middot; vorher 19.421&nbsp;&euro;</div></div>
+    <div class="kpi"><div class="lab">Bestellungen</div><div class="val">222</div><div class="cmp"><span class="trend dn">&minus;36,0&nbsp;%</span> &middot; vorher 347</div></div>
+    <div class="kpi"><div class="lab">&Oslash; Bestellwert</div><div class="val">62,04&nbsp;&euro;</div><div class="cmp"><span class="trend up">+23,8&nbsp;%</span> &middot; vorher 50,12&nbsp;&euro;</div></div>
+    <div class="kpi"><div class="lab">Artikel je Bestellung</div><div class="val">2,14</div><div class="cmp"><span class="trend up">+24,5&nbsp;%</span> &middot; vorher 1,71</div></div>
+  </div>
+  <p class="note">Weniger Bestellungen, aber gr&ouml;&szlig;ere &mdash; der Bestellwert ist um fast ein Viertel gestiegen. Der R&uuml;ckgang der Menge f&auml;llt mit dem Werbestopp zusammen.</p>
+
+  <div class="chart-card" style="margin-top:28px">
+    <div class="chart-legend">
+      <span><i class="swatch" style="background:var(--azafran)"></i> Umsatz in Euro</span>
+      <span><i class="swatch" style="background:var(--barro)"></i> Bestellungen</span>
+    </div>
+    <div class="scroller"><svg id="shopChart" viewBox="0 0 860 330" role="img" aria-label="Shopify-Umsatz und Bestellungen je Monat, M&auml;rz bis Oktober 2026"></svg></div>
+  </div>
+
+  <div class="scroller" style="margin-top:26px"><table>
+    <thead><tr><th>Monat</th><th>Umsatz</th><th>Bestellungen</th><th>&Oslash; Bestellwert</th></tr></thead>
+    <tbody id="shopRows"></tbody>
+    <tfoot><tr><td>M&auml;rz&ndash;Oktober</td><td>124.011&nbsp;&euro;</td><td>2.159</td><td>57,44&nbsp;&euro;</td></tr></tfoot>
+  </table></div>
+  <p class="note">Oktober bis einschlie&szlig;lich 29.10. Juli und September waren die st&auml;rksten Monate, August der schw&auml;chste.</p>
+
+  <h3 style="margin:38px 0 6px;font-size:1.15rem">Was sich am besten verkauft</h3>
+  <p class="lede" style="margin-bottom:22px">Letzte 90 Tage nach Umsatz. Events tragen den Umsatz, Schmuck tr&auml;gt die St&uuml;ckzahlen.</p>
+  <div class="scroller"><table>
+    <thead><tr><th>Artikel</th><th>Art</th><th>Umsatz</th><th>Bestellungen</th></tr></thead>
+    <tbody id="topRows"></tbody>
+  </table></div>
+  <p class="note">Eine Position aus der Rohliste ist hier nicht aufgef&uuml;hrt: eine DPD-Schadensersatzbuchung &uuml;ber 1.114&nbsp;&euro; vom 28.07.2026 &mdash; eine Erstattung, kein Verkauf.</p>
+</div></section>
+
 <section class="band" id="canales"><div class="wrap">
   <div class="sec-head"><span class="es">Canales</span><h2>Datenquellen</h2></div>
-  <p class="lede">Meta liefert bereits Zahlen in dieses Panel. Search Console und GA4 sind als Fl&auml;chen angelegt und f&uuml;llen sich, sobald die Zug&auml;nge freigegeben sind.</p>
+  <p class="lede">Meta und Shopify liefern bereits Zahlen in dieses Panel. Search Console und GA4 sind als Fl&auml;chen angelegt und f&uuml;llen sich, sobald sie eingerichtet sind.</p>
   <div class="channels">
     <div class="channel">
       <span class="status live">Angebunden</span>
       <h3>Meta Ads</h3>
-      <p style="margin:0;color:var(--tinta-soft);font-size:14px">Werbekonto Drihanna, &uuml;ber Supermetrics. Aktualisiert bei jedem Aufruf dieses Panels durch adsupply.</p>
-      <ul><li>Ausgaben, Reichweite, Frequenz</li><li>Link-Klicks, CTR, Klickpreis</li><li>Landingpage-Aufrufe und Kosten je Aufruf</li><li>K&auml;ufe und Kaufwert, sobald Produkte live sind</li></ul>
+      <p style="margin:0;color:var(--tinta-soft);font-size:14px">Werbekonto Drihanna. Wird von adsupply zu jedem Panel-Stand aktualisiert.</p>
+      <ul><li>Ausgaben, Reichweite, Frequenz</li><li>Link-Klicks, CTR, Klickpreis</li><li>Landingpage-Aufrufe und Kosten je Aufruf</li><li>K&auml;ufe und Kaufwert, sobald die Messung greift</li></ul>
+    </div>
+    <div class="channel">
+      <span class="status live">Angebunden</span>
+      <h3>Shopify</h3>
+      <p style="margin:0;color:var(--tinta-soft);font-size:14px">Store Drihanna. Umsatz, Bestellungen und Artikel auf Tagesebene.</p>
+      <ul><li>Umsatz und Bestellungen je Monat</li><li>Durchschnittlicher Bestellwert</li><li>Artikel je Bestellung</li><li>Umsatz je Artikel und Event</li></ul>
     </div>
     <div class="channel">
       <span class="status wait">Vorbereitet</span>
       <h3>Google Search Console</h3>
-      <p style="margin:0;color:var(--tinta-soft);font-size:14px">Ben&ouml;tigt: Zugriff auf die Property drihanna.de f&uuml;r adsupply.</p>
+      <p style="margin:0;color:var(--tinta-soft);font-size:14px">Ben&ouml;tigt: Google-Konto, Property f&uuml;r drihanna.de, Zugriff f&uuml;r adsupply.</p>
       <ul><li>Impressionen und Klicks aus der Suche</li><li>Durchschnittliche Position</li><li>Suchbegriffe mit lokalem Bezug (K&ouml;ln, Dellbr&uuml;ck, spanische Mode)</li><li>Seiten mit der meisten Sichtbarkeit</li></ul>
     </div>
     <div class="channel">
       <span class="status wait">Vorbereitet</span>
       <h3>Google Analytics 4</h3>
-      <p style="margin:0;color:var(--tinta-soft);font-size:14px">Ben&ouml;tigt: Leserechte auf die GA4-Property und einen sauberen Consent-Test.</p>
+      <p style="margin:0;color:var(--tinta-soft);font-size:14px">Ben&ouml;tigt: GA4-Property, Leserechte und einen sauberen Consent-Test.</p>
       <ul><li>Sitzungen nach Quelle und Medium</li><li>Eventbuchungen und Produktk&auml;ufe</li><li>Warenkorbwert und Conversion Rate</li><li>Abgleich mit Shopify, damit nichts doppelt z&auml;hlt</li></ul>
     </div>
   </div>
@@ -294,7 +356,7 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
   <p class="lede">Der Shop muss nicht neu gebaut werden. Es geht darum, vorhandene Produkte kontrolliert verkaufsf&auml;hig zu machen.</p>
   <div class="decisions">
     <div class="decision"><div class="n">01</div><h3>Werbebudget freigeben</h3><p>Meta mit 800&nbsp;&euro; im November. Google Search ab M&auml;rz 2027 nur bei gepr&uuml;fter Kaufstrecke.</p></div>
-    <div class="decision"><div class="n">02</div><h3>Verkaufsreife pr&uuml;fen</h3><p>Bestehende Shopstruktur, Kaufmessung und Verf&uuml;gbarkeit pr&uuml;fen. Kleine Pflege ist im Honorar enthalten.</p></div>
+    <div class="decision"><div class="n">02</div><h3>Messung schlie&szlig;en</h3><p>Shopify verkauft, Meta z&auml;hlt null. Pixel, CAPI und Kaufwert pr&uuml;fen, damit Kampagnen auf Umsatz steuern k&ouml;nnen.</p></div>
     <div class="decision"><div class="n">03</div><h3>Sortiment priorisieren</h3><p>Zuerst 10&ndash;15 verl&auml;sslich lieferf&auml;hige Produkte mit Marge, Gr&ouml;&szlig;en, Fotos und Nachlieferzeit.</p></div>
     <div class="decision"><div class="n">04</div><h3>Creative-Tests starten</h3><p>Bisherige Bestperformer weiternutzen und parallel emotionalere Motive mit Ana und echten Looks produzieren.</p></div>
     <div class="decision"><div class="n">05</div><h3>Contentprozess organisieren</h3><p>Ein Materialtermin im Monat, bei Bedarf mit Mitarbeiterin oder externem Model. Texte &uuml;bernimmt adsupply.</p></div>
@@ -304,7 +366,7 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
 
 <footer><div class="wrap">
   <span>Drihanna &times; adsupply &middot; Panel de mando</span>
-  <span>Meta-Zahlen live &uuml;ber Supermetrics &middot; Stand 28.10.2026</span>
+  <span>Stand 29.10.2026</span>
   <span>Anziehen. Genie&szlig;en. Erleben.</span>
 </div></footer>
 
@@ -319,40 +381,77 @@ const MONTHS=[
  {m:"Sep",cost:421.91,imp:86584,clicks:3498,lpv:2994},
  {m:"Okt",cost:91.55,imp:20557,clicks:784,lpv:702}
 ];
+const SHOP=[
+ {m:"Mär",rev:13279.25,ord:228},
+ {m:"Apr",rev:12724.65,ord:214},
+ {m:"Mai",rev:15098.63,ord:262},
+ {m:"Jun",rev:15373.68,ord:281},
+ {m:"Jul",rev:22330.60,ord:416},
+ {m:"Aug",rev:10081.22,ord:189},
+ {m:"Sep",rev:19683.93,ord:353},
+ {m:"Okt",rev:15439.34,ord:216}
+];
+const TOP=[
+ ["Brisa – Flow & Genuss für Frauen","Event",1127,23],
+ ["Spanischer Sommerabend","Event",950,14],
+ ["Pendientes acero","Schmuck",851.60,53],
+ ["Leinenbluse mit langen Ärmeln","Mode",851.40,9],
+ ["Weihnachten in Spanien – Bräuche & Genuss","Event",819,11],
+ ["Herbstabend – Madrid von Taverne zu Taverne","Event",765,8],
+ ["Frühlingsabend – Pintxos in San Sebastián","Event",741,7],
+ ["Ringe","Schmuck",644.89,37],
+ ["Handtasche mit Innentasche","Accessoire",525.10,6],
+ ["Den Jakobsweg entdecken","Event",435.60,6],
+ ["Cadena","Schmuck",406.79,21],
+ ["Event Private Tasting","Event",396,8],
+ ["Leinenhose","Mode",394.60,4],
+ ["Handtasche geflochten","Accessoire",382.10,5]
+];
 const nf=(v,d)=>v.toLocaleString("de-DE",{minimumFractionDigits:d,maximumFractionDigits:d});
 const eur=v=>nf(v,2)+" €";
+const eur0=v=>nf(v,0)+" €";
 
-/* Monatstabelle */
 document.getElementById("monthRows").innerHTML=MONTHS.map(r=>{
   const ctr=r.clicks/r.imp*100, cpl=r.cost/r.lpv;
   return `<tr><td>${r.m} 2026</td><td>${eur(r.cost)}</td><td>${nf(r.imp,0)}</td><td>${nf(r.clicks,0)}</td><td>${nf(ctr,2)} %</td><td>${nf(r.lpv,0)}</td><td>${eur(cpl)}</td></tr>`;
 }).join("");
 
-/* Chart */
-(function(){
-  const W=860,H=330,L=58,R=58,T=22,B=46;
+document.getElementById("shopRows").innerHTML=SHOP.map(r=>
+  `<tr><td>${r.m} 2026</td><td>${eur0(r.rev)}</td><td>${nf(r.ord,0)}</td><td>${eur(r.rev/r.ord)}</td></tr>`
+).join("");
+
+document.getElementById("topRows").innerHTML=TOP.map(r=>
+  `<tr><td>${r[0]}</td><td style="text-align:left">${r[1]}</td><td>${eur(r[2])}</td><td>${nf(r[3],0)}</td></tr>`
+).join("");
+
+/* Generischer Balken-plus-Linie-Chart */
+function drawChart(id,rows,barKey,lineKey,barMax,lineMax,barColor,lineColor,barFmt,lineFmt,barLabel,lineLabel){
+  const W=860,H=330,L=66,R=66,T=22,B=46;
   const iw=W-L-R, ih=H-T-B;
-  const maxC=500, maxL=5000;
-  const n=MONTHS.length, step=iw/n, bw=Math.min(40,step*.42);
-  const yC=v=>T+ih-(v/maxC)*ih, yL=v=>T+ih-(v/maxL)*ih;
+  const n=rows.length, step=iw/n, bw=Math.min(40,step*.42);
+  const yB=v=>T+ih-(v/barMax)*ih, yL=v=>T+ih-(v/lineMax)*ih;
   let s="";
   for(let i=0;i<=5;i++){
-    const v=maxC/5*i, y=yC(v);
+    const y=yB(barMax/5*i);
     s+=`<line x1="${L}" y1="${y}" x2="${L+iw}" y2="${y}" stroke="var(--linea)" stroke-width="1"/>`;
-    s+=`<text x="${L-10}" y="${y+4}" text-anchor="end" font-size="11" fill="var(--tinta-soft)" font-family="Nunito Sans, sans-serif">${nf(v,0)}€</text>`;
-    s+=`<text x="${L+iw+10}" y="${y+4}" text-anchor="start" font-size="11" fill="var(--tinta-soft)" font-family="Nunito Sans, sans-serif">${nf(maxL/5*i,0)}</text>`;
+    s+=`<text x="${L-10}" y="${y+4}" text-anchor="end" font-size="11" fill="var(--tinta-soft)" font-family="Nunito Sans, sans-serif">${barFmt(barMax/5*i)}</text>`;
+    s+=`<text x="${L+iw+10}" y="${y+4}" text-anchor="start" font-size="11" fill="var(--tinta-soft)" font-family="Nunito Sans, sans-serif">${lineFmt(lineMax/5*i)}</text>`;
   }
-  MONTHS.forEach((r,i)=>{
-    const cx=L+step*i+step/2, y=yC(r.cost);
-    s+=`<rect x="${cx-bw/2}" y="${y}" width="${bw}" height="${T+ih-y}" fill="var(--barro)" rx="2"><title>${r.m}: ${eur(r.cost)}</title></rect>`;
+  rows.forEach((r,i)=>{
+    const cx=L+step*i+step/2, y=yB(r[barKey]);
+    s+=`<rect x="${cx-bw/2}" y="${y}" width="${bw}" height="${T+ih-y}" fill="${barColor}" rx="2"><title>${r.m}: ${barLabel(r[barKey])}</title></rect>`;
     s+=`<text x="${cx}" y="${H-B+22}" text-anchor="middle" font-size="12" fill="var(--tinta-soft)" font-family="Nunito Sans, sans-serif">${r.m}</text>`;
   });
-  const pts=MONTHS.map((r,i)=>[L+step*i+step/2,yL(r.lpv)]);
-  s+=`<polyline points="${pts.map(p=>p.join(",")).join(" ")}" fill="none" stroke="var(--oliva)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
-  pts.forEach((p,i)=>{ s+=`<circle cx="${p[0]}" cy="${p[1]}" r="${i===pts.length-1?5.5:3.5}" fill="var(--oliva)" stroke="var(--arena-2)" stroke-width="2"><title>${MONTHS[i].m}: ${nf(MONTHS[i].lpv,0)} LP-Aufrufe</title></circle>`; });
+  const pts=rows.map((r,i)=>[L+step*i+step/2,yL(r[lineKey])]);
+  s+=`<polyline points="${pts.map(p=>p.join(",")).join(" ")}" fill="none" stroke="${lineColor}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+  pts.forEach((p,i)=>{ s+=`<circle cx="${p[0]}" cy="${p[1]}" r="${i===pts.length-1?5.5:3.5}" fill="${lineColor}" stroke="var(--arena-2)" stroke-width="2"><title>${rows[i].m}: ${lineLabel(rows[i][lineKey])}</title></circle>`; });
   s+=`<line x1="${L}" y1="${T+ih}" x2="${L+iw}" y2="${T+ih}" stroke="var(--linea-stark)" stroke-width="1"/>`;
-  document.getElementById("chart").innerHTML=s;
-})();
+  document.getElementById(id).innerHTML=s;
+}
+drawChart("chart",MONTHS,"cost","lpv",500,5000,"var(--barro)","var(--oliva)",
+  v=>nf(v,0)+"€", v=>nf(v,0), v=>eur(v), v=>nf(v,0)+" LP-Aufrufe");
+drawChart("shopChart",SHOP,"rev","ord",25000,500,"var(--azafran)","var(--barro)",
+  v=>nf(v/1000,0)+"k€", v=>nf(v,0), v=>eur0(v), v=>nf(v,0)+" Bestellungen");
 
 /* Fahrplan */
 const STAGES=[
@@ -392,7 +491,6 @@ function show(i){
 }
 show(0);
 
-/* Budgets */
 const BUDGET=[
  ["Nov 26","800 €","–","Kölner Store + buchbare Events"],
  ["Dez 26","850 €","–","Weihnachtsanlässe + Store"],
@@ -411,17 +509,20 @@ document.getElementById("budgetRows").innerHTML=BUDGET.map(r=>`<tr><td>${r[0]}</
 
 /* Aufgaben */
 const TASKS=[
- {w:"Sofort",s:"offen",who:"adsupply",t:"Meta-Auslieferung klären und neu starten",d:"Seit 07.10. keine Impressionen. Ursache prüfen (Budget, Zahlungsmittel, Ablehnung) und Kampagne mit 800 € wieder scharf stellen."},
- {w:"Sofort",s:"offen",who:"adsupply",t:"Messung und Links prüfen",d:"Event-Testkauf inklusive Kaufwert, UTMs, Linkfehler bei Mode_Schmuck_2, Consent sowie Pixel und CAPI ohne Doppelzählung."},
- {w:"Sofort",s:"offen",who:"Niko",t:"Zugänge für Search Console und GA4 freigeben",d:"Ohne Leserechte bleiben die beiden Kanäle in diesem Panel leer."},
+ {w:"Erledigt",s:"fertig",who:"Drihanna",t:"Videos für Social Organic produziert",d:"Material geschnitten, untertitelt und bearbeitet. Steht für organische Beiträge bereit und dient als Fundus für erste Anzeigentests."},
+ {w:"Sofort",s:"offen",who:"adsupply",t:"Meta-Kampagne neu starten",d:"Seit 07.10. keine Auslieferung. Kampagne mit 800 € Budget wieder scharf stellen, Motive und Zielgruppen vorher prüfen."},
+ {w:"Sofort",s:"offen",who:"adsupply",t:"Kaufmessung schließen",d:"Shopify verkauft, Meta zählt null Käufe. Pixel, CAPI, Kaufwert und Consent prüfen, Event-Testkauf, UTMs, Linkfehler bei Mode_Schmuck_2."},
+ {w:"Sofort",s:"offen",who:"Niko",t:"Google-Konto einrichten",d:"Gemeinsames Google-Konto für Drihanna anlegen. Grundlage für Search Console, GA4 und später Google Ads."},
+ {w:"Sofort",s:"offen",who:"adsupply",t:"GA4 und Search Console anlegen",d:"Property für drihanna.de einrichten, Tracking einbauen, Zugriff für adsupply freigeben. Danach füllen sich die beiden Kacheln in diesem Panel."},
  {w:"Sofort",s:"offen",who:"Ana & Team",t:"Herkunftsabfrage an der Kasse einführen",d:"Ein kurzer Satz beim Bezahlen macht sichtbar, welche Besuche aus der Werbung kommen."},
+ {w:"Nov 26",s:"offen",who:"adsupply",t:"Contentplan erstellen",d:"12–16 Beiträge im Monat: Hola aus Dellbrück, neue Kollektionen, Stylingmomente, Schatz der Woche. Keine Dauer-Rabatte. Videomaterial ist vorhanden."},
+ {w:"Nov 26",s:"offen",who:"adsupply",t:"Shopify-Shop überarbeiten",d:"Produktbeschreibungen anpassen, Kategorien und Bilder ordnen. Vorrang haben die Artikel mit der besten Marge und verlässlicher Lieferbarkeit."},
  {w:"Nov 26",s:"laeuft",who:"adsupply",t:"Zwei Creative-Linien starten",d:"Mode_Schmuck_7 und _9 als Traffic-Referenz weiternutzen, parallel drei bis vier neue emotionale Konzepte konzipieren."},
  {w:"Nov 26",s:"offen",who:"Ana & Team",t:"Materialtermin November",d:"Ein gebündelter Drehtag statt täglicher Aufnahmen. Bei Bedarf Mitarbeiterin oder externes Model."},
  {w:"Nov 26",s:"offen",who:"Niko",t:"10–15 lieferfähige Artikel auswählen",d:"Je Artikel Einkaufskosten, Marge, Größen und Nachlieferzeit festhalten."},
- {w:"Nov 26",s:"offen",who:"adsupply",t:"12–16 Beiträge planen",d:"Hola aus Dellbrück, neue Kollektionen, Stylingmomente und Schatz der Woche. Keine Dauer-Rabatte."},
  {w:"Dez 26",s:"offen",who:"adsupply",t:"Weihnachtsanlässe bespielen",d:"Storytelling-Motive mit echten Menschen, Styling und Spaniengefühl testen. Shopprodukte nur nach Freigabe bewerben."},
  {w:"Jan 27",s:"offen",who:"adsupply",t:"Anzeigen nach Wirkung trennen",d:"Store, Event und Kauf getrennt auswerten. Produktkandidaten, Marge, Lieferbarkeit und Shopseiten prüfen."},
- {w:"Feb 27",s:"offen",who:"adsupply",t:"Produktverkäufe strukturieren",d:"Vorhandene Shopstruktur optimieren, zwei bis vier Hero-Produkte testen, Produktargumente schärfen."},
+ {w:"Feb 27",s:"offen",who:"adsupply",t:"Produktverkäufe strukturieren",d:"Zwei bis vier Hero-Produkte testen, Produktargumente schärfen, Kaufstrecke für Search vorbereiten."},
  {w:"Mär 27",s:"freigabe",who:"Niko",t:"Google Search freigeben",d:"Start mit 250 €, aber nur bei geprüfter Kaufstrecke, lieferfähigem Sortiment und vorhandener Suchnachfrage."},
  {w:"Apr 27",s:"offen",who:"adsupply",t:"Ergebnisse verdichten, CRM starten",d:"Gewinner priorisieren, Kundenfeedback einarbeiten, nach sauberer Einwilligung Welcome-Mail und ein Newsletter im Monat."},
  {w:"Mai 27",s:"offen",who:"adsupply",t:"Erfolgreiche Artikel stärken",d:"Shop-Kategorien und Lagerbestand verbessern, wiederkehrende Nachfrage erkennen, lokale Kooperationen testen."},
@@ -432,7 +533,7 @@ const TASKS=[
  {w:"Okt 27",s:"offen",who:"Alle",t:"Jahresreview und Ausblick",d:"Online-Deckungsbeitrag, Storebesuche, Events, Warenbestand und Anas Zeitaufwand vergleichen, nächste Stufe planen."}
 ];
 const LABEL={offen:"Offen",laeuft:"Läuft",fertig:"Erledigt",freigabe:"Freigabe nötig"};
-const FILTERS=[["alle","Alle"],["Sofort","Sofort"],["adsupply","adsupply"],["Ana & Team","Ana & Team"],["Niko","Niko"],["freigabe","Freigaben"]];
+const FILTERS=[["alle","Alle"],["Sofort","Sofort"],["adsupply","adsupply"],["Ana & Team","Ana & Team"],["Niko","Niko"],["freigabe","Freigaben"],["fertig","Erledigt"]];
 let active="alle";
 const fEl=document.getElementById("filters"), tEl=document.getElementById("tasks");
 FILTERS.forEach(([k,l])=>{
@@ -444,10 +545,12 @@ FILTERS.forEach(([k,l])=>{
 });
 function render(){
   const list=TASKS.filter(t=>active==="alle"||t.w===active||t.who===active||t.s===active);
-  tEl.innerHTML=list.length?list.map(t=>`<div class="task">
+  tEl.innerHTML=list.length?list.map(t=>`<div class="task${t.s==="fertig"?" done":""}">
     <div class="when">${t.w}</div>
     <div class="what"><span class="st ${t.s}">${LABEL[t.s]}</span><b>${t.t}</b><span>${t.d}</span></div>
     <div class="who">${t.who}</div></div>`).join(""):`<div class="empty">Keine Aufgaben in dieser Auswahl.</div>`;
 }
 render();
 </script>
+</body>
+</html>

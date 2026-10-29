@@ -9,12 +9,12 @@ Dashboard für den Kunden Drihanna (drihanna.de), betreut über adsupply.
 ## Inhalt
 
 `index.html` ist eine in sich geschlossene Seite: Styles, Skript und alle Daten stecken in der Datei.
-Die Meta-Zahlen sind als Stand eingetragen, nicht live abgefragt — sie werden bei jeder
-Aktualisierung aus dem Werbekonto `act_2256437428221967` über Supermetrics neu gezogen.
+Die Zahlen sind als Stand eingetragen, nicht live abgefragt — sie werden bei jeder
+Aktualisierung aus dem Meta-Werbekonto und dem Shopify-Store neu gezogen.
 
-Stand der Zahlen: 28.10.2026.
+Stand der Zahlen: 29.10.2026.
 
 ## Ändern
 
 Die Seite wird im Claude-Chat des Accounts gepflegt und von dort gepusht.
-Wer von Hand ändert: die Datenblöcke stehen unten im `<script>` (`MONTHS`, `STAGES`, `BUDGET`, `TASKS`).
+Wer von Hand ändert: die Datenblöcke stehen unten im `<script>` (`MONTHS`, `SHOP`, `TOP`, `STAGES`, `BUDGET`, `TASKS`).
