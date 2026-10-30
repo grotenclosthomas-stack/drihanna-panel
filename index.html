@@ -175,22 +175,6 @@ footer{border-top:1px solid var(--linea);background:var(--arena-2)}
 footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;font-size:12px;color:var(--tinta-soft)}
 .note{font-size:12.5px;color:var(--tinta-soft);margin-top:14px}
 
-/* ——— Ton-Schalter ——— */
-.sound-btn{position:fixed;z-index:25;
-  right:calc(16px + env(safe-area-inset-right,0px));
-  bottom:calc(16px + env(safe-area-inset-bottom,0px));
-  width:44px;height:44px;border-radius:50%;padding:0;cursor:pointer;
-  border:1px solid var(--linea-stark);background:var(--arena-2);color:var(--tinta-soft);
-  display:grid;place-items:center;transition:color .2s,border-color .2s,background .2s}
-.sound-btn:hover{color:var(--barro);border-color:var(--barro)}
-.sound-btn:focus-visible{outline:2px solid var(--azafran);outline-offset:3px}
-.sound-btn svg{width:20px;height:20px;display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.sound-btn .wave{display:block}
-.sound-btn .slash{display:none}
-.sound-btn[aria-pressed="false"]{color:var(--tinta-soft);opacity:.72}
-.sound-btn[aria-pressed="false"] .wave{display:none}
-.sound-btn[aria-pressed="false"] .slash{display:block}
-
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -390,14 +374,6 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
   <span>Anziehen. Genie&szlig;en. Erleben.</span>
 </div></footer>
 
-<button class="sound-btn" id="soundBtn" type="button" aria-pressed="true" title="Ton an oder aus" aria-label="Ton an oder aus">
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M4 9.5h3.5L12 5.5v13L7.5 14.5H4z"/>
-    <g class="wave"><path d="M16 9.2a4 4 0 0 1 0 5.6"/><path d="M18.6 6.8a7.5 7.5 0 0 1 0 10.4"/></g>
-    <g class="slash"><path d="M16.2 9.8l4.6 4.4"/><path d="M20.8 9.8l-4.6 4.4"/></g>
-  </svg>
-</button>
-
 <script>
 const MONTHS=[
  {m:"Mär",cost:129.01,imp:24994,clicks:1440,lpv:1247},
@@ -582,12 +558,6 @@ render();
 
 /* ——— Klang beim Öffnen: angeschlagenes E-Dur-Arpeggio, im Browser erzeugt ——— */
 (function(){
-  const KEY="drihanna-sound";
-  const btn=document.getElementById("soundBtn");
-  let on=true;
-  try{ on = localStorage.getItem(KEY)!=="off"; }catch(e){}
-  btn.setAttribute("aria-pressed", on?"true":"false");
-
   let ctx=null;
   function getCtx(){
     if(ctx) return ctx;
@@ -640,23 +610,23 @@ render();
     return Promise.resolve(schedule());
   }
 
-  /* Browser lassen Ton ohne Zutun meist nicht zu. Erst versuchen, sonst beim ersten Klick nachholen. */
-  const EV=["pointerdown","keydown","touchstart"];
-  function arm(){
-    const h=function(ev){
-      EV.forEach(e=>window.removeEventListener(e,h));
-      if(ev&&ev.target&&ev.target.closest&&ev.target.closest("#soundBtn")) return;
-      if(on) play();
-    };
-    EV.forEach(e=>window.addEventListener(e,h,{passive:true}));
+  /* Browser lassen Ton ohne Nutzerzutun meist nicht zu. Darum drei Anläufe:
+     sofort beim Laden, beim Sichtbarwerden des Tabs, und spätestens beim ersten Klick. */
+  let done=false;
+  const EV=["pointerdown","keydown","touchstart","scroll"];
+  function fire(){
+    if(done) return Promise.resolve(true);
+    return play().then(function(ok){ if(ok) done=true; return ok; });
   }
-  if(on) play().then(ok=>{ if(!ok) arm(); });
+  function cleanup(){ EV.forEach(e=>window.removeEventListener(e,onEv)); }
+  function onEv(){ fire().then(function(ok){ if(ok) cleanup(); }); }
 
-  btn.addEventListener("click",function(){
-    on=!on;
-    btn.setAttribute("aria-pressed", on?"true":"false");
-    try{ localStorage.setItem(KEY, on?"on":"off"); }catch(e){}
-    if(on) play();
+  fire().then(function(ok){
+    if(ok) return;
+    EV.forEach(e=>window.addEventListener(e,onEv,{passive:true}));
+    document.addEventListener("visibilitychange",function(){
+      if(!document.hidden) fire().then(function(ok){ if(ok) cleanup(); });
+    });
   });
 })();
 </script>
