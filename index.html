@@ -184,7 +184,7 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
   <div class="hero-photo"></div>
   <div class="hero-inner wrap">
     <div class="hero-mark">Drihanna &times; adsupply</div>
-    <div class="eyebrow">Panel de mando &middot; Stand 29. Oktober 2026</div>
+    <div class="eyebrow">Panel de mando &middot; Stand 2. November 2026</div>
     <h1>Hola,<br><em>Colonia.</em></h1>
     <p class="hero-sub">Spanisches Lebensgef&uuml;hl in K&ouml;ln-Dellbr&uuml;ck &mdash; Store, Events und Onlineshop in einer Zahlen- und Aufgabenansicht.</p>
     <div class="hero-pills">
@@ -356,21 +356,22 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
 </div></section>
 
 <section class="band" id="decisiones"><div class="wrap">
-  <div class="sec-head"><span class="es">Decisiones</span><h2>Sechs Freigaben f&uuml;r den Start</h2></div>
-  <p class="lede">Der Shop muss nicht neu gebaut werden. Es geht darum, vorhandene Produkte kontrolliert verkaufsf&auml;hig zu machen.</p>
+  <div class="sec-head"><span class="es">Decisiones</span><h2>Was jetzt bei euch liegt</h2></div>
+  <p class="lede">Sieben Punkte, bei denen wir eure Entscheidung brauchen. Der Shop muss dabei nicht neu gebaut werden &mdash; es geht darum, vorhandene Produkte kontrolliert verkaufsf&auml;hig zu machen.</p>
   <div class="decisions">
     <div class="decision"><div class="n">01</div><h3>Werbebudget freigeben</h3><p>Meta mit 800&nbsp;&euro; im November. Google Search ab M&auml;rz 2027 nur bei gepr&uuml;fter Kaufstrecke.</p></div>
     <div class="decision"><div class="n">02</div><h3>Messung schlie&szlig;en</h3><p>Shopify verkauft, Meta z&auml;hlt null. Pixel, CAPI und Kaufwert pr&uuml;fen, damit Kampagnen auf Umsatz steuern k&ouml;nnen.</p></div>
     <div class="decision"><div class="n">03</div><h3>Sortiment priorisieren</h3><p>Zuerst 10&ndash;15 verl&auml;sslich lieferf&auml;hige Produkte mit Marge, Gr&ouml;&szlig;en, Fotos und Nachlieferzeit.</p></div>
     <div class="decision"><div class="n">04</div><h3>Creative-Tests starten</h3><p>Bisherige Bestperformer weiternutzen und parallel emotionalere Motive mit Ana und echten Looks produzieren.</p></div>
     <div class="decision"><div class="n">05</div><h3>Contentprozess organisieren</h3><p>Ein Materialtermin im Monat, bei Bedarf mit Mitarbeiterin oder externem Model. Texte &uuml;bernimmt adsupply.</p></div>
-    <div class="decision"><div class="n">06</div><h3>Monatlich entscheiden</h3><p>Events, Store, K&auml;ufe, Margen, Kampagnenkosten und Entlastung ansehen, dann den n&auml;chsten Schritt freigeben.</p></div>
+    <div class="decision"><div class="n">06</div><h3>Newsletter-Tool festlegen</h3><p>Brevo statt Klaviyo spart rund 10&ndash;20&nbsp;&euro; im Monat. Dagegen spricht der CRM-Start im Fr&uuml;hjahr, der die Liste sonst zweimal umziehen l&auml;sst.</p></div>
+    <div class="decision"><div class="n">07</div><h3>Monatlich entscheiden</h3><p>Events, Store, K&auml;ufe, Margen, Kampagnenkosten und Entlastung ansehen, dann den n&auml;chsten Schritt freigeben.</p></div>
   </div>
 </div></section>
 
 <footer><div class="wrap">
   <span>Drihanna &times; adsupply &middot; Panel de mando</span>
-  <span>Stand 29.10.2026</span>
+  <span>Zahlenstand: Meta 07.10. &middot; Shop 29.10.2026</span>
   <span>Anziehen. Genie&szlig;en. Erleben.</span>
 </div></footer>
 
@@ -514,6 +515,10 @@ document.getElementById("budgetRows").innerHTML=BUDGET.map(r=>`<tr><td>${r[0]}</
 /* Aufgaben */
 const TASKS=[
  {w:"Erledigt",s:"fertig",who:"Drihanna",t:"Videos für Social Organic produziert",d:"Material geschnitten, untertitelt und bearbeitet. Steht für organische Beiträge bereit und dient als Fundus für erste Anzeigentests."},
+ {w:"Erledigt",s:"fertig",who:"adsupply",t:"Dieses Panel aufgesetzt",d:"Meta- und Shopify-Zahlen, Jahresfahrplan und Aufgabenliste an einem Ort. Erreichbar unter adsupply.de/dashboard-drihanna, Aktualisierung läuft automatisch."},
+ {w:"Erledigt",s:"fertig",who:"adsupply",t:"Newsletter-Tool geprüft",d:"Klaviyo ist für reinen Newsletterversand überdimensioniert. Empfehlung Brevo: Abrechnung nach Versandmenge statt Kontaktzahl, EU-Anbieter. Ersparnis rund 10–20 € im Monat."},
+ {w:"Entscheidung",s:"freigabe",who:"Ana & Niko",t:"Newsletter-Tool festlegen",d:"Zwei vertretbare Wege: jetzt zu Brevo wechseln, oder Klaviyo behalten und im Frühjahr mit dem CRM-Start neu entscheiden. Gegen einen Wechsel spricht, dass automatisierte Kaufstrecken ab April geplant sind — dann zieht die Liste zweimal um."},
+ {w:"Entscheidung",s:"freigabe",who:"Niko",t:"Klaviyo-Zugang bereitstellen",d:"Ohne Blick ins Konto — Kontaktzahl, Shop-Anbindung, laufende Strecken — bleibt die Kostenrechnung eine Schätzung."},
  {w:"Sofort",s:"offen",who:"adsupply",t:"Meta-Kampagne neu starten",d:"Seit 07.10. keine Auslieferung. Kampagne mit 800 € Budget wieder scharf stellen, Motive und Zielgruppen vorher prüfen."},
  {w:"Sofort",s:"offen",who:"adsupply",t:"Kaufmessung schließen",d:"Shopify verkauft, Meta zählt null Käufe. Pixel, CAPI, Kaufwert und Consent prüfen, Event-Testkauf, UTMs, Linkfehler bei Mode_Schmuck_2."},
  {w:"Sofort",s:"offen",who:"Niko",t:"Google-Konto einrichten",d:"Gemeinsames Google-Konto für Drihanna anlegen. Grundlage für Search Console, GA4 und später Google Ads."},
@@ -537,7 +542,7 @@ const TASKS=[
  {w:"Okt 27",s:"offen",who:"Alle",t:"Jahresreview und Ausblick",d:"Online-Deckungsbeitrag, Storebesuche, Events, Warenbestand und Anas Zeitaufwand vergleichen, nächste Stufe planen."}
 ];
 const LABEL={offen:"Offen",laeuft:"Läuft",fertig:"Erledigt",freigabe:"Freigabe nötig"};
-const FILTERS=[["alle","Alle"],["Sofort","Sofort"],["adsupply","adsupply"],["Ana & Team","Ana & Team"],["Niko","Niko"],["freigabe","Freigaben"],["fertig","Erledigt"]];
+const FILTERS=[["alle","Alle"],["freigabe","Bei euch"],["Sofort","Sofort"],["adsupply","adsupply"],["Ana & Team","Ana & Team"],["Niko","Niko"],["fertig","Erledigt"]];
 let active="alle";
 const fEl=document.getElementById("filters"), tEl=document.getElementById("tasks");
 FILTERS.forEach(([k,l])=>{
