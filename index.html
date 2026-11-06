@@ -149,15 +149,15 @@ tfoot td{font-weight:800;border-top:2px solid var(--linea-stark);border-bottom:n
 .chip{font-family:var(--body);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;padding:8px 14px;border-radius:999px;border:1px solid var(--linea-stark);background:transparent;color:var(--tinta-soft);cursor:pointer}
 .chip[aria-pressed="true"]{background:var(--tinta);border-color:var(--tinta);color:var(--arena)}
 .tasks{display:flex;flex-direction:column;gap:1px;background:var(--linea);border:1px solid var(--linea)}
-.task{background:var(--arena);display:grid;grid-template-columns:82px minmax(0,1fr) auto;gap:16px;align-items:start;padding:16px 18px}
+.task{background:var(--arena);display:grid;grid-template-columns:108px minmax(0,1fr) auto;gap:18px;align-items:start;padding:16px 18px}
 @media(max-width:640px){.task{grid-template-columns:1fr;gap:9px}}
 .task.done{background:color-mix(in srgb,var(--ok) 6%,var(--arena))}
-.task .when{font-size:10.5px;letter-spacing:.17em;text-transform:uppercase;font-weight:800;color:var(--barro);padding-top:3px}
+.task .when{font-size:10.5px;letter-spacing:.12em;line-height:1.35;text-transform:uppercase;font-weight:800;color:var(--barro);padding-top:3px;min-width:0;overflow-wrap:anywhere}
 .task .what{min-width:0}
 .task .what b{display:block;font-weight:700;font-size:15px}
 .task .what span{color:var(--tinta-soft);font-size:13.5px}
 .task .who{font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--tinta-soft);white-space:nowrap;padding-top:3px}
-.st{display:inline-block;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;padding:3px 9px;border-radius:999px;margin-bottom:6px}
+.st{display:inline-block;max-width:100%;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;padding:3px 9px;border-radius:999px;margin-bottom:6px}
 .st.offen{background:color-mix(in srgb,var(--warn) 18%,var(--arena));color:var(--warn)}
 .st.laeuft{background:color-mix(in srgb,var(--oliva) 20%,var(--arena));color:var(--oliva)}
 .st.fertig{background:color-mix(in srgb,var(--ok) 18%,var(--arena));color:var(--ok)}
@@ -307,7 +307,7 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
 
 <section class="band" id="canales"><div class="wrap">
   <div class="sec-head"><span class="es">Canales</span><h2>Datenquellen</h2></div>
-  <p class="lede">Meta und Shopify liefern bereits Zahlen in dieses Panel. Search Console und GA4 sind als Fl&auml;chen angelegt und f&uuml;llen sich, sobald sie eingerichtet sind.</p>
+  <p class="lede">Alle vier Quellen sind angebunden. Meta und Shopify liefern bereits Zahlen. Search Console und GA4 wurden am 06.11.2026 scharf geschaltet &mdash; sie z&auml;hlen ab diesem Tag und erscheinen mit den ersten Werten im n&auml;chsten Panel-Stand.</p>
   <div class="channels">
     <div class="channel">
       <span class="status live">Angebunden</span>
@@ -322,15 +322,15 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
       <ul><li>Umsatz und Bestellungen je Monat</li><li>Durchschnittlicher Bestellwert</li><li>Artikel je Bestellung</li><li>Umsatz je Artikel und Event</li></ul>
     </div>
     <div class="channel">
-      <span class="status wait">Vorbereitet</span>
+      <span class="status live">Angebunden</span>
       <h3>Google Search Console</h3>
-      <p style="margin:0;color:var(--tinta-soft);font-size:14px">Ben&ouml;tigt: Google-Konto, Property f&uuml;r drihanna.de, Zugriff f&uuml;r adsupply.</p>
+      <p style="margin:0;color:var(--tinta-soft);font-size:14px">Property f&uuml;r www.drihanna.de seit 06.11.2026 best&auml;tigt. Die Suche z&auml;hlt ab diesem Tag, die ersten Werte stehen nach rund drei Tagen zur Verf&uuml;gung.</p>
       <ul><li>Impressionen und Klicks aus der Suche</li><li>Durchschnittliche Position</li><li>Suchbegriffe mit lokalem Bezug (K&ouml;ln, Dellbr&uuml;ck, spanische Mode)</li><li>Seiten mit der meisten Sichtbarkeit</li></ul>
     </div>
     <div class="channel">
-      <span class="status wait">Vorbereitet</span>
+      <span class="status live">Angebunden</span>
       <h3>Google Analytics 4</h3>
-      <p style="margin:0;color:var(--tinta-soft);font-size:14px">Ben&ouml;tigt: GA4-Property, Leserechte und einen sauberen Consent-Test.</p>
+      <p style="margin:0;color:var(--tinta-soft);font-size:14px">Property f&uuml;r drihanna.de l&auml;uft seit 06.11.2026. Gemessen wird erst nach Zustimmung im Cookie-Banner &mdash; gepr&uuml;ft und best&auml;tigt.</p>
       <ul><li>Sitzungen nach Quelle und Medium</li><li>Eventbuchungen und Produktk&auml;ufe</li><li>Warenkorbwert und Conversion Rate</li><li>Abgleich mit Shopify, damit nichts doppelt z&auml;hlt</li></ul>
     </div>
   </div>
@@ -357,21 +357,21 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
 
 <section class="band" id="decisiones"><div class="wrap">
   <div class="sec-head"><span class="es">Decisiones</span><h2>Was jetzt bei euch liegt</h2></div>
-  <p class="lede">Sieben Punkte, bei denen wir eure Entscheidung brauchen. Der Shop muss dabei nicht neu gebaut werden &mdash; es geht darum, vorhandene Produkte kontrolliert verkaufsf&auml;hig zu machen.</p>
+  <p class="lede">Sieben Punkte, bei denen wir eure Entscheidung brauchen &mdash; einer davon ist gefallen. Der Shop muss dabei nicht neu gebaut werden &mdash; es geht darum, vorhandene Produkte kontrolliert verkaufsf&auml;hig zu machen.</p>
   <div class="decisions">
     <div class="decision"><div class="n">01</div><h3>Werbebudget freigeben</h3><p>Meta mit 800&nbsp;&euro; im November. Google Search ab M&auml;rz 2027 nur bei gepr&uuml;fter Kaufstrecke.</p></div>
     <div class="decision"><div class="n">02</div><h3>Messung schlie&szlig;en</h3><p>Shopify verkauft, Meta z&auml;hlt null. Pixel, CAPI und Kaufwert pr&uuml;fen, damit Kampagnen auf Umsatz steuern k&ouml;nnen.</p></div>
     <div class="decision"><div class="n">03</div><h3>Sortiment priorisieren</h3><p>Zuerst 10&ndash;15 verl&auml;sslich lieferf&auml;hige Produkte mit Marge, Gr&ouml;&szlig;en, Fotos und Nachlieferzeit.</p></div>
     <div class="decision"><div class="n">04</div><h3>Creative-Tests starten</h3><p>Bisherige Bestperformer weiternutzen und parallel emotionalere Motive mit Ana und echten Looks produzieren.</p></div>
     <div class="decision"><div class="n">05</div><h3>Contentprozess organisieren</h3><p>Ein Materialtermin im Monat, bei Bedarf mit Mitarbeiterin oder externem Model. Texte &uuml;bernimmt adsupply.</p></div>
-    <div class="decision"><div class="n">06</div><h3>Newsletter-Tool festlegen</h3><p>Brevo statt Klaviyo spart rund 10&ndash;20&nbsp;&euro; im Monat. Dagegen spricht der CRM-Start im Fr&uuml;hjahr, der die Liste sonst zweimal umziehen l&auml;sst.</p></div>
+    <div class="decision"><div class="n">06</div><h3>Newsletter-Tool &mdash; entschieden</h3><p>Klaviyo bleibt vorerst. Brevo w&uuml;rde rund 10&ndash;20&nbsp;&euro; im Monat sparen, der CRM-Start im Fr&uuml;hjahr w&uuml;rde die Liste aber zweimal umziehen lassen. Neu bewertet wird dann.</p></div>
     <div class="decision"><div class="n">07</div><h3>Monatlich entscheiden</h3><p>Events, Store, K&auml;ufe, Margen, Kampagnenkosten und Entlastung ansehen, dann den n&auml;chsten Schritt freigeben.</p></div>
   </div>
 </div></section>
 
 <footer><div class="wrap">
   <span>Drihanna &times; adsupply &middot; Panel de mando</span>
-  <span>Zahlenstand: Meta 07.10. &middot; Shop 29.10.2026</span>
+  <span>Zahlenstand: Meta 07.10. &middot; Shop 29.10. &middot; Tracking live 06.11.2026</span>
   <span>Anziehen. Genie&szlig;en. Erleben.</span>
 </div></footer>
 
@@ -517,12 +517,12 @@ const TASKS=[
  {w:"Erledigt",s:"fertig",who:"Drihanna",t:"Videos für Social Organic produziert",d:"Material geschnitten, untertitelt und bearbeitet. Steht für organische Beiträge bereit und dient als Fundus für erste Anzeigentests."},
  {w:"Erledigt",s:"fertig",who:"adsupply",t:"Dieses Panel aufgesetzt",d:"Meta- und Shopify-Zahlen, Jahresfahrplan und Aufgabenliste an einem Ort. Erreichbar unter adsupply.de/dashboard-drihanna, Aktualisierung läuft automatisch."},
  {w:"Erledigt",s:"fertig",who:"adsupply",t:"Newsletter-Tool geprüft",d:"Klaviyo ist für reinen Newsletterversand überdimensioniert. Empfehlung Brevo: Abrechnung nach Versandmenge statt Kontaktzahl, EU-Anbieter. Ersparnis rund 10–20 € im Monat."},
- {w:"Entscheidung",s:"freigabe",who:"Ana & Niko",t:"Newsletter-Tool festlegen",d:"Zwei vertretbare Wege: jetzt zu Brevo wechseln, oder Klaviyo behalten und im Frühjahr mit dem CRM-Start neu entscheiden. Gegen einen Wechsel spricht, dass automatisierte Kaufstrecken ab April geplant sind — dann zieht die Liste zweimal um."},
- {w:"Entscheidung",s:"freigabe",who:"Niko",t:"Klaviyo-Zugang bereitstellen",d:"Ohne Blick ins Konto — Kontaktzahl, Shop-Anbindung, laufende Strecken — bleibt die Kostenrechnung eine Schätzung."},
+ {w:"Erledigt",s:"fertig",who:"Ana & Niko",t:"Newsletter-Tool festgelegt",d:"Klaviyo bleibt vorerst. Neu entschieden wird mit dem CRM-Start im Frühjahr, wenn die automatisierten Kaufstrecken stehen — so zieht die Liste nur einmal um."},
+ {w:"Erledigt",s:"fertig",who:"adsupply",t:"GA4 und Search Console angelegt",d:"Beide Properties für drihanna.de laufen seit 06.11.2026. Google Tag im Shop, Einwilligung sauber verdrahtet, Messung bis zum Kauf eingerichtet. Erste Zahlen erscheinen im nächsten Panel-Stand."},
+ {w:"Erledigt",s:"fertig",who:"Niko",t:"Klaviyo-Zugang bereitgestellt",d:"Zugang liegt bei adsupply. Kontaktzahl, Shop-Anbindung und laufende Strecken lassen sich damit im Konto prüfen statt schätzen."},
  {w:"Sofort",s:"offen",who:"adsupply",t:"Meta-Kampagne neu starten",d:"Seit 07.10. keine Auslieferung. Kampagne mit 800 € Budget wieder scharf stellen, Motive und Zielgruppen vorher prüfen."},
- {w:"Sofort",s:"offen",who:"adsupply",t:"Kaufmessung schließen",d:"Shopify verkauft, Meta zählt null Käufe. Pixel, CAPI, Kaufwert und Consent prüfen, Event-Testkauf, UTMs, Linkfehler bei Mode_Schmuck_2."},
+ {w:"Sofort",s:"offen",who:"adsupply",t:"Kaufmessung bei Meta schließen",d:"Shopify verkauft, Meta zählt null Käufe. Auf Google-Seite ist die Messung bis zum Kauf jetzt dicht. Bei Meta bleiben Pixel, CAPI und Kaufwert zu prüfen, dazu Testkauf, UTMs und der Linkfehler bei Mode_Schmuck_2."},
  {w:"Sofort",s:"offen",who:"Niko",t:"Google-Konto einrichten",d:"Gemeinsames Google-Konto für Drihanna anlegen. Grundlage für Search Console, GA4 und später Google Ads."},
- {w:"Sofort",s:"offen",who:"adsupply",t:"GA4 und Search Console anlegen",d:"Property für drihanna.de einrichten, Tracking einbauen, Zugriff für adsupply freigeben. Danach füllen sich die beiden Kacheln in diesem Panel."},
  {w:"Sofort",s:"offen",who:"Ana & Team",t:"Herkunftsabfrage an der Kasse einführen",d:"Ein kurzer Satz beim Bezahlen macht sichtbar, welche Besuche aus der Werbung kommen."},
  {w:"Nov 26",s:"offen",who:"adsupply",t:"Contentplan erstellen",d:"12–16 Beiträge im Monat: Hola aus Dellbrück, neue Kollektionen, Stylingmomente, Schatz der Woche. Keine Dauer-Rabatte. Videomaterial ist vorhanden."},
  {w:"Nov 26",s:"offen",who:"adsupply",t:"Shopify-Shop überarbeiten",d:"Produktbeschreibungen anpassen, Kategorien und Bilder ordnen. Vorrang haben die Artikel mit der besten Marge und verlässlicher Lieferbarkeit."},
@@ -555,7 +555,7 @@ FILTERS.forEach(([k,l])=>{
 function render(){
   const list=TASKS.filter(t=>active==="alle"||t.w===active||t.who===active||t.s===active);
   tEl.innerHTML=list.length?list.map(t=>`<div class="task${t.s==="fertig"?" done":""}">
-    <div class="when">${t.w}</div>
+    <div class="when">${t.w===LABEL[t.s]?"":t.w}</div>
     <div class="what"><span class="st ${t.s}">${LABEL[t.s]}</span><b>${t.t}</b><span>${t.d}</span></div>
     <div class="who">${t.who}</div></div>`).join(""):`<div class="empty">Keine Aufgaben in dieser Auswahl.</div>`;
 }
