@@ -364,7 +364,7 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
     <div class="decision"><div class="n">03</div><h3>Sortiment priorisieren</h3><p>Zuerst 10&ndash;15 verl&auml;sslich lieferf&auml;hige Produkte mit Marge, Gr&ouml;&szlig;en, Fotos und Nachlieferzeit.</p></div>
     <div class="decision"><div class="n">04</div><h3>Creative-Tests starten</h3><p>Bisherige Bestperformer weiternutzen und parallel emotionalere Motive mit Ana und echten Looks produzieren.</p></div>
     <div class="decision"><div class="n">05</div><h3>Contentprozess organisieren</h3><p>Ein Materialtermin im Monat, bei Bedarf mit Mitarbeiterin oder externem Model. Texte &uuml;bernimmt adsupply.</p></div>
-    <div class="decision"><div class="n">06</div><h3>Newsletter-Tool &mdash; entschieden</h3><p>Klaviyo bleibt vorerst. Brevo w&uuml;rde rund 10&ndash;20&nbsp;&euro; im Monat sparen, der CRM-Start im Fr&uuml;hjahr w&uuml;rde die Liste aber zweimal umziehen lassen. Neu bewertet wird dann.</p></div>
+    <div class="decision"><div class="n">06</div><h3>Newsletter-Tool &mdash; entschieden</h3><p>Klaviyo bleibt. Die Shop-Anbindung steht, und ab Fr&uuml;hjahr setzen die automatisierten Kaufstrecken darauf auf. Neu bewertet wird mit dem CRM-Start.</p></div>
     <div class="decision"><div class="n">07</div><h3>Monatlich entscheiden</h3><p>Events, Store, K&auml;ufe, Margen, Kampagnenkosten und Entlastung ansehen, dann den n&auml;chsten Schritt freigeben.</p></div>
   </div>
 </div></section>
@@ -514,20 +514,33 @@ document.getElementById("budgetRows").innerHTML=BUDGET.map(r=>`<tr><td>${r[0]}</
 
 /* Aufgaben */
 const TASKS=[
- {w:"Erledigt",s:"fertig",who:"Drihanna",t:"Videos für Social Organic produziert",d:"Material geschnitten, untertitelt und bearbeitet. Steht für organische Beiträge bereit und dient als Fundus für erste Anzeigentests."},
+ {w:"Erledigt",s:"fertig",who:"adsupply",t:"Meta für den Anzeigenstart eingerichtet",d:"Werbekonto, Kampagnenstruktur und Zielgruppen stehen. Die Anzeigen können starten, sobald die Motive freigegeben sind."},
+ {w:"Erledigt",s:"fertig",who:"adsupply",t:"Erste Creatives erstellt",d:"Die ersten Motive sind fertig und liegen zur Abstimmung bei euch."},
+ {w:"Erledigt",s:"fertig",who:"adsupply",t:"Videos aufbereitet",d:"Geschnitten, untertitelt und mit Endkarten versehen — allgemein für Drihanna und für Drihanna × Lottusse. Nutzbar für organische Beiträge und als Fundus für Anzeigentests."},
  {w:"Erledigt",s:"fertig",who:"adsupply",t:"Dieses Panel aufgesetzt",d:"Meta- und Shopify-Zahlen, Jahresfahrplan und Aufgabenliste an einem Ort. Erreichbar unter adsupply.de/dashboard-drihanna, Aktualisierung läuft automatisch."},
- {w:"Erledigt",s:"fertig",who:"adsupply",t:"Newsletter-Tool geprüft",d:"Klaviyo ist für reinen Newsletterversand überdimensioniert. Empfehlung Brevo: Abrechnung nach Versandmenge statt Kontaktzahl, EU-Anbieter. Ersparnis rund 10–20 € im Monat."},
- {w:"Erledigt",s:"fertig",who:"Ana & Niko",t:"Newsletter-Tool festgelegt",d:"Klaviyo bleibt vorerst. Neu entschieden wird mit dem CRM-Start im Frühjahr, wenn die automatisierten Kaufstrecken stehen — so zieht die Liste nur einmal um."},
  {w:"Erledigt",s:"fertig",who:"adsupply",t:"GA4 und Search Console angelegt",d:"Beide Properties für drihanna.de laufen seit 06.11.2026. Google Tag im Shop, Einwilligung sauber verdrahtet, Messung bis zum Kauf eingerichtet. Erste Zahlen erscheinen im nächsten Panel-Stand."},
+ {w:"Erledigt",s:"fertig",who:"adsupply",t:"Newsletter-Tool geprüft",d:"Für den reinen Newsletterversand bleibt Klaviyo die Empfehlung: Shop-Anbindung steht, und ab Frühjahr tragen die automatisierten Kaufstrecken darauf auf. Ein Wechsel würde die Liste zweimal umziehen lassen."},
+ {w:"Erledigt",s:"fertig",who:"Ana & Niko",t:"Newsletter-Tool festgelegt",d:"Klaviyo bleibt. Neu bewertet wird mit dem CRM-Start im Frühjahr, wenn die automatisierten Strecken stehen."},
  {w:"Erledigt",s:"fertig",who:"Niko",t:"Klaviyo-Zugang bereitgestellt",d:"Zugang liegt bei adsupply. Kontaktzahl, Shop-Anbindung und laufende Strecken lassen sich damit im Konto prüfen statt schätzen."},
- {w:"Sofort",s:"offen",who:"adsupply",t:"Meta-Kampagne neu starten",d:"Seit 07.10. keine Auslieferung. Kampagne mit 800 € Budget wieder scharf stellen, Motive und Zielgruppen vorher prüfen."},
+ {w:"Sofort",s:"freigabe",who:"Niko",t:"Creatives freigeben",d:"Die ersten Motive liegen bei euch. Änderungswünsche bitte je Motiv gebündelt zurückmelden, dann geht eine Überarbeitungsrunde deutlich schneller."},
+ {w:"Sofort",s:"freigabe",who:"Niko",t:"Anzeigenstart freigeben",d:"Die Kampagne ist startklar. Es fehlt nur die Bestätigung, dass wir mit den vorbereiteten Anzeigen loslegen dürfen."},
+ {w:"Sofort",s:"freigabe",who:"Niko",t:"Organisches Posten klären",d:"Offen ist, ob adsupply Planung und Veröffentlichung der organischen Beiträge übernimmt oder ihr das weiter selbst macht."},
+ {w:"Sofort",s:"freigabe",who:"Ana & Niko",t:"Rückmeldung zu diesem Panel",d:"Passt die Übersicht so, oder fehlen Zahlen und Funktionen? Wir bauen es nach eurem Bedarf um."},
+ {w:"Sofort",s:"freigabe",who:"Ana & Niko",t:"Abstimmung über WhatsApp",d:"Vorschlag: kurze Abstimmungen laufen künftig über WhatsApp statt per Mail. Ist das in eurem Sinn?"},
+ {w:"Sofort",s:"freigabe",who:"Ana & Niko",t:"Wöchentliches Kurzupdate",d:"Vorschlag: montags eine kurze Nachricht oder Sprachnachricht von euch — was ansteht, was neu ist. Passt das so?"},
+ {w:"Sofort",s:"freigabe",who:"Ana & Team",t:"Infos zu Ware und Aktionen",d:"Wir brauchen laufend den aktuellen Stand: Lieferungen, neue Kollektionen, Aktionen und was tatsächlich verfügbar ist. Ohne das bewerben wir im Zweifel Artikel, die nicht lieferbar sind."},
+ {w:"Sofort",s:"freigabe",who:"Ana & Team",t:"Material aus dem Laden liefern",d:"Aktuelle Aufnahmen aus dem Store sowie Clips zu den vorgeschlagenen Video-Ideen. Der Plan dazu liegt von adsupply vor — am besten ein gebündelter Drehtag statt täglicher Einzelaufnahmen."},
+ {w:"Sofort",s:"offen",who:"adsupply",t:"Meta-Anzeigen starten",d:"Seit 07.10. läuft keine Auslieferung. Sobald Motive und Start freigegeben sind, geht die Kampagne mit 800 € Budget wieder scharf."},
+ {w:"Sofort",s:"offen",who:"adsupply",t:"Creatives überarbeiten",d:"Anpassungen an den ersten Motiven, sobald euer Feedback da ist."},
+ {w:"Sofort",s:"offen",who:"adsupply",t:"Organic-Umfang abstimmen",d:"Wenn ihr die Veröffentlichung abgebt: Umfang, Themen und Freigabeprozess festlegen, damit nicht jeder Beitrag einzeln abgestimmt werden muss."},
+ {w:"Sofort",s:"offen",who:"adsupply",t:"Neues Material schneiden",d:"Frisches Material für Paid und Organic aufbereiten, sobald die Aufnahmen aus dem Laden vorliegen."},
  {w:"Sofort",s:"offen",who:"adsupply",t:"Kaufmessung bei Meta schließen",d:"Shopify verkauft, Meta zählt null Käufe. Auf Google-Seite ist die Messung bis zum Kauf jetzt dicht. Bei Meta bleiben Pixel, CAPI und Kaufwert zu prüfen, dazu Testkauf, UTMs und der Linkfehler bei Mode_Schmuck_2."},
  {w:"Sofort",s:"offen",who:"Niko",t:"Google-Konto einrichten",d:"Gemeinsames Google-Konto für Drihanna anlegen. Grundlage für Search Console, GA4 und später Google Ads."},
  {w:"Sofort",s:"offen",who:"Ana & Team",t:"Herkunftsabfrage an der Kasse einführen",d:"Ein kurzer Satz beim Bezahlen macht sichtbar, welche Besuche aus der Werbung kommen."},
- {w:"Nov 26",s:"offen",who:"adsupply",t:"Contentplan erstellen",d:"12–16 Beiträge im Monat: Hola aus Dellbrück, neue Kollektionen, Stylingmomente, Schatz der Woche. Keine Dauer-Rabatte. Videomaterial ist vorhanden."},
+ {w:"Nov 26",s:"offen",who:"adsupply",t:"Redaktionsplan erstellen",d:"12–16 Beiträge im Monat: Hola aus Dellbrück, neue Kollektionen, Stylingmomente, Schatz der Woche. Keine Dauer-Rabatte. Videomaterial ist vorhanden."},
+ {w:"Nov 26",s:"offen",who:"adsupply",t:"Organische Beiträge veröffentlichen",d:"Beiträge nach Redaktionsplan vorbereiten und ausspielen — sobald der Umfang geklärt ist."},
  {w:"Nov 26",s:"offen",who:"adsupply",t:"Shopify-Shop überarbeiten",d:"Produktbeschreibungen anpassen, Kategorien und Bilder ordnen. Vorrang haben die Artikel mit der besten Marge und verlässlicher Lieferbarkeit."},
  {w:"Nov 26",s:"laeuft",who:"adsupply",t:"Zwei Creative-Linien starten",d:"Mode_Schmuck_7 und _9 als Traffic-Referenz weiternutzen, parallel drei bis vier neue emotionale Konzepte konzipieren."},
- {w:"Nov 26",s:"offen",who:"Ana & Team",t:"Materialtermin November",d:"Ein gebündelter Drehtag statt täglicher Aufnahmen. Bei Bedarf Mitarbeiterin oder externes Model."},
  {w:"Nov 26",s:"offen",who:"Niko",t:"10–15 lieferfähige Artikel auswählen",d:"Je Artikel Einkaufskosten, Marge, Größen und Nachlieferzeit festhalten."},
  {w:"Dez 26",s:"offen",who:"adsupply",t:"Weihnachtsanlässe bespielen",d:"Storytelling-Motive mit echten Menschen, Styling und Spaniengefühl testen. Shopprodukte nur nach Freigabe bewerben."},
  {w:"Jan 27",s:"offen",who:"adsupply",t:"Anzeigen nach Wirkung trennen",d:"Store, Event und Kauf getrennt auswerten. Produktkandidaten, Marge, Lieferbarkeit und Shopseiten prüfen."},
