@@ -174,6 +174,7 @@ tfoot td{font-weight:800;border-top:2px solid var(--linea-stark);border-bottom:n
 footer{border-top:1px solid var(--linea);background:var(--arena-2)}
 footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;font-size:12px;color:var(--tinta-soft)}
 .note{font-size:12.5px;color:var(--tinta-soft);margin-top:14px}
+#planWrap th,#planWrap td{text-align:left}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -203,8 +204,8 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
 
 <nav class="nav"><div class="wrap">
   <a href="#pulso">Puls</a><a href="#meta">Meta 2026</a><a href="#campanas">Kampagnen</a>
-  <a href="#tienda">Shop</a><a href="#canales">Kan&auml;le</a><a href="#camino">Fahrplan</a>
-  <a href="#tareas">Aufgaben</a><a href="#decisiones">Freigaben</a>
+  <a href="#tienda">Shop</a><a href="#rentabilidad">Wirtschaftlichkeit</a><a href="#canales">Kan&auml;le</a>
+  <a href="#camino">Fahrplan</a><a href="#tareas">Aufgaben</a><a href="#plan">Redaktionsplan</a><a href="#decisiones">Freigaben</a>
 </div></nav>
 
 <section class="band" id="pulso"><div class="wrap">
@@ -305,6 +306,24 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
   <p class="note">Eine Position aus der Rohliste ist hier nicht aufgef&uuml;hrt: eine DPD-Schadensersatzbuchung &uuml;ber 1.114&nbsp;&euro; vom 28.07.2026 &mdash; eine Erstattung, kein Verkauf.</p>
 </div></section>
 
+<section class="band" id="rentabilidad"><div class="wrap">
+  <div class="sec-head"><span class="es">Rentabilidad</span><h2>Was die Werbung kostet, was der Shop bringt</h2></div>
+  <p class="lede">M&auml;rz bis 13.&nbsp;November&nbsp;2026. Die Werbeausgaben stammen aus dem Meta-Werbekonto, der Umsatz aus Shopify.</p>
+  <div class="kpis" id="roiKpis"></div>
+  <div class="alert" style="margin-top:28px">
+    <div>
+      <strong>Ein kanalgenauer ROI l&auml;sst sich noch nicht rechnen.</strong>
+      <p>Meta z&auml;hlt bislang null K&auml;ufe, obwohl der Shop verkauft. Solange das so ist, l&auml;sst sich kein Umsatz der Werbung zuordnen &mdash; die Zahlen oben stellen Ausgaben und Umsatz nur nebeneinander, sie sagen nichts dar&uuml;ber, wie viel Umsatz die Werbung ausgel&ouml;st hat. Der gr&ouml;&szlig;te Teil des Umsatzes entsteht ohnehin im Laden und bei Events.</p>
+      <p>Auf Google-Seite ist die Messung bis zum Kauf seit 06.11. dicht. Fehlt noch dasselbe bei Meta: Pixel, CAPI und Kaufwert. Danach steht hier ein echter ROAS je Kampagne.</p>
+    </div>
+  </div>
+  <div class="scroller" style="margin-top:28px"><table>
+    <thead><tr><th>Monat</th><th>Werbung</th><th>Shop-Umsatz</th><th>Werbekostenanteil</th><th>&euro; je LP-Aufruf</th></tr></thead>
+    <tbody id="roiRows"></tbody>
+  </table></div>
+  <p class="note">Werbekostenanteil = Werbeausgaben geteilt durch Shop-Umsatz im selben Monat. Im November liefen keine Anzeigen.</p>
+</div></section>
+
 <section class="band" id="canales"><div class="wrap">
   <div class="sec-head"><span class="es">Canales</span><h2>Datenquellen</h2></div>
   <p class="lede">Alle vier Quellen sind angebunden. Meta und Shopify liefern bereits Zahlen. Search Console und GA4 wurden am 06.11.2026 scharf geschaltet &mdash; sie z&auml;hlen ab diesem Tag und erscheinen mit den ersten Werten im n&auml;chsten Panel-Stand.</p>
@@ -355,6 +374,18 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
   <div class="tasks" id="tasks"></div>
 </div></section>
 
+
+<section class="band" id="plan"><div class="wrap">
+  <div class="sec-head"><span class="es">Plan editorial</span><h2>Redaktionsplan</h2></div>
+  <p class="lede">Gepflegt wird der Plan in einer Tabelle. Dieses Panel liest sie einmal am Tag aus, sodass hier immer der aktuelle Stand steht, ohne dass jemand etwas kopieren muss.</p>
+  <div id="planStatus"></div>
+  <div class="scroller" id="planWrap" hidden><table>
+    <thead id="planHead"></thead>
+    <tbody id="planRows"></tbody>
+  </table></div>
+  <p class="note" id="planNote"></p>
+</div></section>
+
 <section class="band" id="decisiones"><div class="wrap">
   <div class="sec-head"><span class="es">Decisiones</span><h2>Was jetzt bei euch liegt</h2></div>
   <p class="lede">Sieben Punkte, bei denen wir eure Entscheidung brauchen &mdash; einer davon ist gefallen. Der Shop muss dabei nicht neu gebaut werden &mdash; es geht darum, vorhandene Produkte kontrolliert verkaufsf&auml;hig zu machen.</p>
@@ -384,17 +415,19 @@ const MONTHS=[
  {m:"Jul",cost:461.66,imp:110218,clicks:4915,lpv:4134},
  {m:"Aug",cost:355.76,imp:84919,clicks:3506,lpv:2947},
  {m:"Sep",cost:421.91,imp:86584,clicks:3498,lpv:2994},
- {m:"Okt",cost:91.55,imp:20557,clicks:784,lpv:702}
+ {m:"Okt",cost:91.55,imp:20557,clicks:784,lpv:702},
+ {m:"Nov",cost:0,imp:0,clicks:0,lpv:0}
 ];
 const SHOP=[
- {m:"Mär",rev:13279.25,ord:228},
- {m:"Apr",rev:12724.65,ord:214},
- {m:"Mai",rev:15098.63,ord:262},
- {m:"Jun",rev:15373.68,ord:281},
- {m:"Jul",rev:22330.60,ord:416},
- {m:"Aug",rev:10081.22,ord:189},
- {m:"Sep",rev:19683.93,ord:353},
- {m:"Okt",rev:15439.34,ord:216}
+ {m:"Mär",rev:13807.25,ord:228},
+ {m:"Apr",rev:12313.64,ord:214},
+ {m:"Mai",rev:15738.63,ord:262},
+ {m:"Jun",rev:14948.68,ord:281},
+ {m:"Jul",rev:22729.91,ord:416},
+ {m:"Aug",rev:9845.72,ord:189},
+ {m:"Sep",rev:19371.68,ord:353},
+ {m:"Okt",rev:15783.79,ord:231},
+ {m:"Nov",rev:5339.30,ord:92}
 ];
 const TOP=[
  ["Brisa – Flow & Genuss für Frauen","Event",1127,23],
@@ -457,6 +490,122 @@ drawChart("chart",MONTHS,"cost","lpv",500,5000,"var(--barro)","var(--oliva)",
   v=>nf(v,0)+"€", v=>nf(v,0), v=>eur(v), v=>nf(v,0)+" LP-Aufrufe");
 drawChart("shopChart",SHOP,"rev","ord",25000,500,"var(--azafran)","var(--barro)",
   v=>nf(v/1000,0)+"k€", v=>nf(v,0), v=>eur0(v), v=>nf(v,0)+" Bestellungen");
+
+/* ——— Wirtschaftlichkeit: Werbeausgaben gegen Shop-Umsatz ——— */
+(function(){
+  const byMonth = {};
+  SHOP.forEach(r => byMonth[r.m] = { rev:r.rev, ord:r.ord });
+  MONTHS.forEach(r => { byMonth[r.m] = Object.assign(byMonth[r.m] || {rev:0,ord:0}, {cost:r.cost, lpv:r.lpv}); });
+
+  const spend = MONTHS.reduce((a,r)=>a+r.cost, 0);
+  const rev   = SHOP.reduce((a,r)=>a+r.rev, 0);
+  const ord   = SHOP.reduce((a,r)=>a+r.ord, 0);
+  const lpv   = MONTHS.reduce((a,r)=>a+r.lpv, 0);
+
+  document.getElementById("roiKpis").innerHTML = [
+    ['Werbeausgaben', eur0(spend), 'M&auml;rz bis November, Meta'],
+    ['Shop-Umsatz', eur0(rev), nf(ord,0) + ' Bestellungen'],
+    ['Werbekostenanteil', nf(spend/rev*100,1) + '&nbsp;%', 'Werbung gemessen am Shop-Umsatz'],
+    ['Kosten je LP-Aufruf', eur(spend/lpv), nf(lpv,0) + ' Aufrufe insgesamt'],
+    ['Zugeordneter Umsatz', '0&nbsp;&euro;', '<span class="trend fl">Messung offen</span> &middot; Meta z&auml;hlt keine K&auml;ufe'],
+    ['&Oslash; Bestellwert', eur(rev/ord), 'Laden, Events und Shop zusammen']
+  ].map(k => '<div class="kpi"><div class="lab">'+k[0]+'</div><div class="val">'+k[1]+'</div><div class="cmp">'+k[2]+'</div></div>').join("");
+
+  document.getElementById("roiRows").innerHTML = MONTHS.map(function(r){
+    const d = byMonth[r.m] || {};
+    const share = d.rev ? nf(r.cost / d.rev * 100, 2) + " %" : "—";
+    const cpl = r.lpv ? eur(r.cost / r.lpv) : "—";
+    const label = r.m === "Nov" ? "Nov 2026 (bis 13.11.)" : r.m + " 2026";
+    return "<tr><td>"+label+"</td><td>"+eur(r.cost)+"</td><td>"+eur0(d.rev||0)+"</td><td>"+share+"</td><td>"+cpl+"</td></tr>";
+  }).join("");
+})();
+
+/* ——— Redaktionsplan aus Google Sheet, einmal t\u00e4glich ——— */
+(function(){
+  /* Tabelle eintragen: ID aus der Sheet-URL, Reiter-Name wie im Tabellenblatt.
+     Das Blatt muss ueber Freigeben auf "Jeder mit dem Link: Betrachter" stehen. */
+  const SHEET_ID  = "";
+  const SHEET_TAB = "Redaktionsplan";
+
+  const MAX_AGE = 24*60*60*1000;
+  const CACHE   = "drihanna_plan_v1";
+  const statusEl = document.getElementById("planStatus");
+  const wrapEl   = document.getElementById("planWrap");
+  const headEl   = document.getElementById("planHead");
+  const rowsEl   = document.getElementById("planRows");
+  const noteEl   = document.getElementById("planNote");
+
+  function hint(text){ statusEl.innerHTML = '<div class="alert info"><div><strong>'+text+'</strong></div></div>'; }
+
+  if(!SHEET_ID){
+    hint("Der Redaktionsplan wird gerade aufgesetzt.");
+    noteEl.textContent = "Sobald die Tabelle steht, erscheinen die Beitr\u00e4ge hier automatisch.";
+    return;
+  }
+
+  /* CSV mit Anf\u00fchrungszeichen, Kommas und Zeilenumbr\u00fcchen in Feldern */
+  function parseCSV(text){
+    const rows=[]; let row=[], cell="", q=false;
+    for(let i=0;i<text.length;i++){
+      const c=text[i];
+      if(q){
+        if(c==='"'){ if(text[i+1]==='"'){ cell+='"'; i++; } else q=false; }
+        else cell+=c;
+      } else if(c==='"') q=true;
+      else if(c===","){ row.push(cell); cell=""; }
+      else if(c==="\n"){ row.push(cell); rows.push(row); row=[]; cell=""; }
+      else if(c!=="\r") cell+=c;
+    }
+    if(cell!=="" || row.length){ row.push(cell); rows.push(row); }
+    return rows.filter(r=>r.some(v=>v.trim()!==""));
+  }
+
+  const STATES = {"geplant":"offen","in arbeit":"laeuft","l\u00e4uft":"laeuft","entwurf":"laeuft","freigabe":"freigabe","zur freigabe":"freigabe","ver\u00f6ffentlicht":"fertig","online":"fertig","fertig":"fertig"};
+
+  function render(rows, stamp){
+    if(rows.length < 2){ hint("Die Tabelle ist noch leer."); return; }
+    const head = rows[0].map(h=>h.trim());
+    const statusIdx = head.findIndex(h=>/^status$/i.test(h));
+    headEl.innerHTML = "<tr>" + head.map(h=>"<th>"+h.replace(/[<>&]/g,"")+"</th>").join("") + "</tr>";
+    rowsEl.innerHTML = rows.slice(1).map(function(r){
+      return "<tr>" + head.map(function(_,i){
+        const raw = (r[i]||"").trim();
+        const v = raw.replace(/[<>&]/g,"");
+        if(i===statusIdx && v){
+          const cls = STATES[v.toLowerCase()] || "offen";
+          return '<td><span class="st '+cls+'">'+v+"</span></td>";
+        }
+        return "<td>"+v+"</td>";
+      }).join("") + "</tr>";
+    }).join("");
+    statusEl.innerHTML = "";
+    wrapEl.hidden = false;
+    noteEl.textContent = "Stand: " + new Date(stamp).toLocaleString("de-DE",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}) + " Uhr. Gepflegt wird in der Tabelle, dieses Panel liest sie einmal am Tag neu.";
+  }
+
+  let cached = null;
+  try { cached = JSON.parse(localStorage.getItem(CACHE) || "null"); } catch(e) {}
+  if(cached && cached.rows && Date.now() - cached.ts < MAX_AGE){ render(cached.rows, cached.ts); return; }
+  if(cached && cached.rows) render(cached.rows, cached.ts);
+  else hint("Redaktionsplan wird geladen \u2026");
+
+  const url = "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
+              "/gviz/tq?tqx=out:csv&sheet=" + encodeURIComponent(SHEET_TAB) + "&t=" + Date.now();
+
+  fetch(url, {cache:"no-store"})
+    .then(function(r){ if(!r.ok) throw new Error(r.status); return r.text(); })
+    .then(function(text){
+      const rows = parseCSV(text);
+      const ts = Date.now();
+      try { localStorage.setItem(CACHE, JSON.stringify({ts:ts, rows:rows})); } catch(e) {}
+      render(rows, ts);
+    })
+    .catch(function(){
+      if(cached && cached.rows) return;
+      hint("Der Redaktionsplan ist gerade nicht erreichbar.");
+      noteEl.textContent = "Beim n\u00e4chsten Aufruf wird erneut geladen.";
+    });
+})();
 
 /* Fahrplan */
 const STAGES=[
