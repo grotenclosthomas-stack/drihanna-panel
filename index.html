@@ -508,23 +508,35 @@ drawChart("shopChart",SHOP,"rev","ord",25000,500,"var(--azafran)","var(--barro)"
   v=>nf(v/1000,0)+"k€", v=>nf(v,0), v=>eur0(v), v=>nf(v,0)+" Bestellungen");
 
 /* ——— ROI Meta: vorbereitet, rechnet mit dem Umsatz, den Meta den Anzeigen zuordnet ———
-   Sobald Pixel/CAPI Käufe melden, hier den zugeordneten Umsatz eintragen. */
-const META_ATTRIBUTED = null;
+   Pflege je Monat: cost = Meta-Ausgaben des Monats, rev = von Meta zugeordneter Umsatz.
+   rev auf null lassen, solange die Kaufmessung nichts meldet. */
+const META_ROI = [
+ {m:"Nov 26", cost:0, rev:null}
+];
 (function(){
-  const spend = MONTHS.reduce((a,r)=>a+r.cost, 0);
-  const has = typeof META_ATTRIBUTED === "number";
-  const roas = has ? nf(META_ATTRIBUTED/spend, 2) : "&mdash;";
-  const rev  = has ? eur0(META_ATTRIBUTED) : "&mdash;";
-  const roi  = has ? ((META_ATTRIBUTED-spend)/spend>=0?"+":"") + nf((META_ATTRIBUTED-spend)/spend*100,0) + "&nbsp;%" : "&mdash;";
+  const spendAll = MONTHS.reduce((a,r)=>a+r.cost, 0);
+  const rows = META_ROI.map(function(r){
+    const has = typeof r.rev === "number" && r.cost > 0;
+    const roas = has ? nf(r.rev/r.cost,2) : "&mdash;";
+    const roi  = has ? ((r.rev-r.cost)/r.cost>=0?"+":"") + nf((r.rev-r.cost)/r.cost*100,0) + "&nbsp;%" : "&mdash;";
+    return "<tr><td>"+r.m+"</td><td>"+eur(r.cost)+"</td><td>"+(typeof r.rev==="number"?eur0(r.rev):"&mdash;")+"</td><td>"+roas+"</td><td>"+roi+"</td></tr>";
+  }).join("");
+  const sumC = META_ROI.reduce((a,r)=>a+r.cost,0);
+  const revs = META_ROI.filter(r=>typeof r.rev==="number");
+  const sumR = revs.reduce((a,r)=>a+r.rev,0);
+  const hasT = revs.length>0 && sumC>0;
   document.getElementById("roiGauge").innerHTML =
     '<div class="top"><b>ROI Meta</b><span class="status wait" style="font-size:10px;padding:4px 10px">Vorbereitet</span></div>' +
     '<div class="legend">' +
-      '<div><div class="lab">Werbeausgaben</div><div class="val">' + eur0(spend) + '</div></div>' +
-      '<div><div class="lab">Zugeordneter Umsatz</div><div class="val">' + rev + '</div></div>' +
-      '<div><div class="lab">ROAS</div><div class="val">' + roas + '</div></div>' +
-      '<div><div class="lab">ROI</div><div class="val">' + roi + '</div></div>' +
+      '<div><div class="lab">Ausgaben seit M&auml;rz</div><div class="val">' + eur0(spendAll) + '</div></div>' +
+      '<div><div class="lab">Zugeordneter Umsatz</div><div class="val">' + (hasT?eur0(sumR):"&mdash;") + '</div></div>' +
+      '<div><div class="lab">ROAS</div><div class="val">' + (hasT?nf(sumR/sumC,2):"&mdash;") + '</div></div>' +
+      '<div><div class="lab">ROI</div><div class="val">' + (hasT?((sumR-sumC)/sumC>=0?"+":"")+nf((sumR-sumC)/sumC*100,0)+"&nbsp;%":"&mdash;") + '</div></div>' +
     '</div>' +
-    '<p class="hint">F&uuml;llt sich, sobald die Kaufmessung bei Meta steht und K&auml;ufe den Anzeigen zugeordnet werden.</p>';
+    '<div class="scroller" style="margin-top:18px"><table style="min-width:520px">' +
+      '<thead><tr><th>Monat</th><th>Ausgaben</th><th>Zugeordneter Umsatz</th><th>ROAS</th><th>ROI</th></tr></thead>' +
+      '<tbody>' + rows + '</tbody></table></div>' +
+    '<p class="hint">Je Monat ab dem Neustart im November; Dezember, Januar usw. kommen laufend dazu. F&uuml;llt sich, sobald die Kaufmessung bei Meta steht und K&auml;ufe den Anzeigen zugeordnet werden.</p>';
 })();
 
 /* ——— Wirtschaftlichkeit: Werbeausgaben gegen Shop-Umsatz ——— */
