@@ -334,7 +334,7 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
     </div>
   </div>
   <div class="scroller" style="margin-top:28px"><table>
-    <thead><tr><th>Monat</th><th>Werbung</th><th>Shop-Umsatz</th><th>Werbekostenanteil</th><th>&euro; je LP-Aufruf</th></tr></thead>
+    <thead><tr><th>Monat</th><th>Werbung</th><th>Shop-Umsatz</th><th>Umsatz je 1&nbsp;&euro; Werbung</th><th>Werbekostenanteil</th><th>&euro; je LP-Aufruf</th></tr></thead>
     <tbody id="roiRows"></tbody>
   </table></div>
   <p class="note">Werbekostenanteil = Werbeausgaben geteilt durch Shop-Umsatz im selben Monat. Im November liefen keine Anzeigen.</p>
@@ -507,26 +507,21 @@ drawChart("chart",MONTHS,"cost","lpv",500,5000,"var(--barro)","var(--oliva)",
 drawChart("shopChart",SHOP,"rev","ord",25000,500,"var(--azafran)","var(--barro)",
   v=>nf(v/1000,0)+"k€", v=>nf(v,0), v=>eur0(v), v=>nf(v,0)+" Bestellungen");
 
-/* ——— ROI-Anzeiger Meta: zugeordneter Umsatz gegen kumulierte Ausgaben ——— */
-/* META_ATTRIBUTED = der Umsatz, den Meta selbst den Anzeigen zuordnet.
-   Steht auf 0, solange Pixel und CAPI keine Käufe melden. */
-const META_ATTRIBUTED = 0;
+/* ——— ROI Meta: Shop-Umsatz gegen Werbeausgaben ——— */
 (function(){
   const spend = MONTHS.reduce((a,r)=>a+r.cost, 0);
-  const pct = spend ? Math.min(100, META_ATTRIBUTED / spend * 100) : 0;
-  const roas = META_ATTRIBUTED && spend ? nf(META_ATTRIBUTED/spend, 2) : "—";
-  const gap = Math.max(0, spend - META_ATTRIBUTED);
+  const rev   = SHOP.reduce((a,r)=>a+r.rev, 0);
+  const roas  = rev / spend;
+  const roi   = (rev - spend) / spend * 100;
   document.getElementById("roiGauge").innerHTML =
-    '<div class="top"><b>ROI-Anzeiger Meta</b><span>Break-even bei ' + eur0(spend) + ' zugeordnetem Umsatz</span></div>' +
-    '<div class="gauge-track"><div class="gauge-fill" style="width:' + nf(pct,1).replace(",",".") + '%"></div></div>' +
-    '<div class="gauge-scale"><span>0 &euro;</span><span>' + nf(pct,0) + '&nbsp;% gedeckt</span><span>' + eur0(spend) + '</span></div>' +
+    '<div class="top"><b>ROI Meta</b><span>M&auml;rz bis November 2026</span></div>' +
     '<div class="legend">' +
-      '<div><div class="lab">Ausgaben kumuliert</div><div class="val">' + eur0(spend) + '</div></div>' +
-      '<div><div class="lab">Von Meta zugeordnet</div><div class="val">' + eur0(META_ATTRIBUTED) + '</div></div>' +
-      '<div><div class="lab">ROAS</div><div class="val">' + roas + '</div></div>' +
-      '<div><div class="lab">Bis Break-even</div><div class="val">' + eur0(gap) + '</div></div>' +
+      '<div><div class="lab">1 &euro; Werbung brachte</div><div class="val">' + eur(roas) + '</div></div>' +
+      '<div><div class="lab">Werbeausgaben</div><div class="val">' + eur0(spend) + '</div></div>' +
+      '<div><div class="lab">Shop-Umsatz</div><div class="val">' + eur0(rev) + '</div></div>' +
+      '<div><div class="lab">ROI</div><div class="val">+' + nf(roi,0) + '&nbsp;%</div></div>' +
     '</div>' +
-    '<p class="hint">Der Balken f&uuml;llt sich mit dem Umsatz, den Meta den Anzeigen zuschreibt. Er steht bei null, weil Pixel und CAPI noch keine K&auml;ufe melden &mdash; nicht, weil die Werbung nichts gebracht h&auml;tte. Sobald die Kaufmessung steht, zeigt der Anzeiger, ab wann sich die Ausgaben getragen haben. Die vollst&auml;ndige Rechnung steht unter <a href="#rentabilidad" style="color:inherit">Wirtschaftlichkeit</a>.</p>';
+    '<p class="hint">Basis: gesamter Shop-Umsatz gegen die Meta-Ausgaben, M&auml;rz bis November 2026. Die Monatswerte stehen unter <a href="#rentabilidad" style="color:inherit">Wirtschaftlichkeit</a>.</p>';
 })();
 
 /* ——— Wirtschaftlichkeit: Werbeausgaben gegen Shop-Umsatz ——— */
@@ -552,9 +547,10 @@ const META_ATTRIBUTED = 0;
   document.getElementById("roiRows").innerHTML = MONTHS.map(function(r){
     const d = byMonth[r.m] || {};
     const share = d.rev ? nf(r.cost / d.rev * 100, 2) + " %" : "—";
+    const per = r.cost ? eur((d.rev||0) / r.cost) : "—";
     const cpl = r.lpv ? eur(r.cost / r.lpv) : "—";
     const label = r.m === "Nov" ? "Nov 2026 (bis 13.11.)" : r.m + " 2026";
-    return "<tr><td>"+label+"</td><td>"+eur(r.cost)+"</td><td>"+eur0(d.rev||0)+"</td><td>"+share+"</td><td>"+cpl+"</td></tr>";
+    return "<tr><td>"+label+"</td><td>"+eur(r.cost)+"</td><td>"+eur0(d.rev||0)+"</td><td>"+per+"</td><td>"+share+"</td><td>"+cpl+"</td></tr>";
   }).join("");
 })();
 
@@ -565,6 +561,11 @@ const META_ATTRIBUTED = 0;
   const SHOW = 12;                       /* so viele kommende Beitraege zeigen */
   const MAX_AGE = 24*60*60*1000;         /* einmal am Tag neu laden */
   const CACHE = "drihanna_plan_v2";
+
+  /* Eingebetteter Stand vom 13.11.2026 — greift, wenn die Tabelle nicht ladbar ist
+     (z. B. in Umgebungen, die externe Abrufe sperren). */
+  const FALLBACK_TS = new Date(2026,10,13).getTime();
+  const PLAN_FALLBACK = [["Datum","","Format","Bereich","Thema","","","Eventdatum","Ziel- / Buchungslink","","","Feed-Status","","","","Hinweise / Freigabe"],["11/15/2026","","Video / Reel","Erlebnisabend","Madrid von Taverne zu Taverne – Ankündigung 1/2","","","11/20/2026","https://www.drihanna.de/products/herbstabend-madrid-20-11-2026","","","Idee","","","","Termin und Plätze vor Veröffentlichung prüfen. Allgemeines Drihanna-Material: nicht als Aufnahme dieses Events oder einer bestimmten Region darstellen."],["11/18/2026","","Statisch","Erlebnisabend","Madrid von Taverne zu Taverne – Reminder 2/2","","","11/20/2026","https://www.drihanna.de/products/herbstabend-madrid-20-11-2026","","","Idee","","","","Termin und Plätze vor Veröffentlichung prüfen. Allgemeines Drihanna-Material: nicht als Aufnahme dieses Events oder einer bestimmten Region darstellen."],["11/22/2026","","Video / Reel","Erlebnisabend","Mallorca trifft Katalonien – Ankündigung 1/2","","","12/4/2026","https://www.drihanna.de/products/mallorca-trifft-katalonien-04-12-2026","","","Idee","","","","Termin und Plätze vor Veröffentlichung prüfen. Allgemeines Drihanna-Material: nicht als Aufnahme dieses Events oder einer bestimmten Region darstellen."],["11/25/2026","","Statisch","Mode & Drihanna","Marineblau & Braun: ein Look mit Charakter","","","","","","","Idee","","","","Vorhandenes Material priorisiert. Vor Veröffentlichung gezeigte Ware und Verfügbarkeit prüfen."],["11/29/2026","","Video / Reel","Mode & Drihanna","Vier Looks, viermal Drihanna","","","","","","","Idee","","","","Vorhandenes Material priorisiert. Vor Veröffentlichung gezeigte Ware und Verfügbarkeit prüfen."],["12/2/2026","","Statisch","Erlebnisabend","Mallorca trifft Katalonien – Reminder 2/2","","","12/4/2026","https://www.drihanna.de/products/mallorca-trifft-katalonien-04-12-2026","","","Idee","","","","Termin und Plätze vor Veröffentlichung prüfen. Allgemeines Drihanna-Material: nicht als Aufnahme dieses Events oder einer bestimmten Region darstellen."],["12/6/2026","","Video / Reel","Erlebnisabend","Weihnachten in Spanien – Ankündigung 1/2","","","12/18/2026","https://www.drihanna.de/products/weihnachten-in-spanien-18-12-2026","","","Idee","","","","Verfügbarkeit widersprüchlich: Übersicht ausverkauft, Produktseite buchbar. Mit Niko klären; bis dahin kein Buchungsaufruf. Allgemeines Drihanna-Material: nicht als Aufnahme dieses Events oder einer bestimmten Region darstellen."],["12/9/2026","","Statisch","Mode & Drihanna","Streifen, Farbe und die gelbe Tasche","","","","","","","Idee","","","","Vorhandenes Material priorisiert. Vor Veröffentlichung gezeigte Ware und Verfügbarkeit prüfen."],["12/13/2026","","Video / Reel","Mode & Drihanna","Creme von Kopf bis Fuß","","","","","","","Idee","","","","Vorhandenes Material priorisiert. Vor Veröffentlichung gezeigte Ware und Verfügbarkeit prüfen."],["12/16/2026","","Statisch","Erlebnisabend","Weihnachten in Spanien – Reminder 2/2","","","12/18/2026","https://www.drihanna.de/products/weihnachten-in-spanien-18-12-2026","","","Idee","","","","Verfügbarkeit widersprüchlich: Übersicht ausverkauft, Produktseite buchbar. Mit Niko klären; bis dahin kein Buchungsaufruf. Allgemeines Drihanna-Material: nicht als Aufnahme dieses Events oder einer bestimmten Region darstellen."],["12/20/2026","","Video / Reel","Ana & Persönlichkeit","Ana stylt: Mantel, Schal und Persönlichkeit","","","","","","","Idee","","","","Vorhandenes Material priorisiert. Vor Veröffentlichung gezeigte Ware und Verfügbarkeit prüfen."],["12/23/2026","","Statisch","Mode & Drihanna","Genuss gehört zu Drihanna","","","","","","","Idee","","","","Vorhandenes Material priorisiert. Vor Veröffentlichung gezeigte Ware und Verfügbarkeit prüfen."],["12/27/2026","","Video / Reel","Mode & Drihanna","Ein Look, mehrere Perspektiven","","","","","","","Idee","","","","Vorhandenes Material priorisiert. Vor Veröffentlichung gezeigte Ware und Verfügbarkeit prüfen."],["12/30/2026","","Statisch","Mode & Drihanna","Helle Töne, starke Details","","","","","","","Idee","","","","Vorhandenes Material priorisiert. Vor Veröffentlichung gezeigte Ware und Verfügbarkeit prüfen."],["1/3/2027","","Video / Reel","Erlebnisabend","Die Nacht des Reises – Ankündigung 1/2","","","1/15/2027","https://www.drihanna.de/products/die-nacht-des-reises-15-01-2027","","","Idee","","","","Termin und Plätze vor Veröffentlichung prüfen."],["1/6/2027","","Statisch","Mode & Drihanna","Schwarz-Weiß mit weicher Tasche","","","","","","","Idee","","","","Vorhandenes Material priorisiert. Vor Veröffentlichung gezeigte Ware und Verfügbarkeit prüfen."],["1/10/2027","","Video / Reel","Ana & Persönlichkeit","Ana und die süße Seite von Drihanna","","","","","","","Idee","","","","Vorhandenes Material priorisiert. Vor Veröffentlichung gezeigte Ware und Verfügbarkeit prüfen."],["1/13/2027","","Statisch","Erlebnisabend","Die Nacht des Reises – Reminder 2/2","","","1/15/2027","https://www.drihanna.de/products/die-nacht-des-reises-15-01-2027","","","Idee","","","","Termin und Plätze vor Veröffentlichung prüfen."],["1/17/2027","","Video / Reel","Erlebnisabend","Whisky mit spanischer Seele – Ankündigung 1/2","","","1/29/2027","https://www.drihanna.de/products/whisky-mit-spanischer-seele","","","Idee","","","","Termin und Plätze vor Veröffentlichung prüfen."],["1/20/2027","","Statisch","Erlebnisabend","Whisky mit spanischer Seele – Reminder 2/2","","","1/29/2027","https://www.drihanna.de/products/whisky-mit-spanischer-seele","","","Idee","","","","Termin und Plätze vor Veröffentlichung prüfen."],["1/24/2027","","Video / Reel","Erlebnisabend","España dulce – Ankündigung 1/2","","","1/30/2027","https://www.drihanna.de/products/espana-dulce-30-01-2027","","","Idee","","","","Termin und Plätze vor Veröffentlichung prüfen."],["1/27/2027","","Statisch","Erlebnisabend","España dulce – Reminder 2/2","","","1/30/2027","https://www.drihanna.de/products/espana-dulce-30-01-2027","","","Idee","","","","Termin und Plätze vor Veröffentlichung prüfen."],["1/31/2027","","Video / Reel","Erlebnisabend","Karneval in Cádiz – Ankündigung 1/2","","","2/13/2027","https://www.drihanna.de/products/karneval-in-cadiz-13-02-2027","","","Idee","","","","Termin und Plätze vor Veröffentlichung prüfen."],["2/3/2027","","Statisch","Mode & Drihanna","Ein Teil, drei Looks","","","","","","","Idee","","","","Zusätzliche Idee nach vorhandenem Material; vor Umsetzung aktuelle Ware abstimmen."],["2/7/2027","","Video / Reel","Mode & Drihanna","Details, die den Look verändern","","","","","","","Idee","","","","Zusätzliche Idee nach vorhandenem Material; vor Umsetzung aktuelle Ware abstimmen."],["2/10/2027","","Statisch","Erlebnisabend","Karneval in Cádiz – Reminder 2/2","","","2/13/2027","https://www.drihanna.de/products/karneval-in-cadiz-13-02-2027","","","Idee","","","","Termin und Plätze vor Veröffentlichung prüfen."],["2/14/2027","","Video / Reel","Erlebnisabend","Mein Spanien – Galicien und der Weg nach Köln – Ankündigung 1/2","","","2/26/2027","https://www.drihanna.de/products/mein-spanien-26-02-2027","","","Idee","","","","Termin und Plätze vor Veröffentlichung prüfen."],["2/17/2027","","Statisch","Ana & Persönlichkeit","Anas Lieblingsstück","","","","","","","Idee","","","","Zusätzliche Idee nach vorhandenem Material; vor Umsetzung aktuelle Ware abstimmen."],["2/21/2027","","Video / Reel","Erlebnisabend","¡Mujeres! – Styling, Schmuck & Küche – Ankündigung 1/2","","","3/6/2027","https://www.drihanna.de/products/mujeres-06-03-2027","","","Idee","","","","Termin und Plätze vor Veröffentlichung prüfen."],["2/24/2027","","Statisch","Erlebnisabend","Mein Spanien – Galicien und der Weg nach Köln – Reminder 2/2","","","2/26/2027","https://www.drihanna.de/products/mein-spanien-26-02-2027","","","Idee","","","","Termin und Plätze vor Veröffentlichung prüfen."],["2/28/2027","","Video / Reel","Mode & Drihanna","Looks für besondere Anlässe","","","","","","","Idee","","","","Zusätzliche Idee nach vorhandenem Material; vor Umsetzung aktuelle Ware abstimmen. Anlass passend zum neuen Datum wählen."],["3/3/2027","","Statisch","Erlebnisabend","¡Mujeres! – Styling, Schmuck & Küche – Reminder 2/2","","","3/6/2027","https://www.drihanna.de/products/mujeres-06-03-2027","","","Idee","","","","Termin und Plätze vor Veröffentlichung prüfen."],["3/7/2027","","Video / Reel","Erlebnisabend","Frühlingsabend in San Sebastián – Ankündigung 1/2","","","3/19/2027","https://www.drihanna.de/products/fruehlingsabend-san-sebastian-19-03-2027","","","Idee","","","","Termin und Plätze vor Veröffentlichung prüfen."],["3/10/2027","","Statisch","Mode & Drihanna","Drihanna zum Verschenken","","","","","","","Idee","","","","Zusätzliche Idee nach vorhandenem Material; vor Umsetzung aktuelle Ware abstimmen."],["3/14/2027","","Video / Reel","Mode & Drihanna","Ein Blick hinter die Kulissen","","","","","","","Idee","","","","Zusätzliche Idee nach vorhandenem Material; vor Umsetzung aktuelle Ware abstimmen."],["3/17/2027","","Statisch","Erlebnisabend","Frühlingsabend in San Sebastián – Reminder 2/2","","","3/19/2027","https://www.drihanna.de/products/fruehlingsabend-san-sebastian-19-03-2027","","","Idee","","","","Termin und Plätze vor Veröffentlichung prüfen."],["3/21/2027","","Video / Reel","Mode & Drihanna","Drihanna-Momente mit Ana","","","","","","","Idee","","","","Zusätzliche Idee nach vorhandenem Material; vor Umsetzung aktuelle Ware abstimmen."],["3/24/2027","","Statisch","Mode & Drihanna","Bekannte Teile neu kombinieren","","","","","","","Idee","","","","Zusätzliche Idee nach vorhandenem Material; vor Umsetzung aktuelle Ware abstimmen."],["3/28/2027","","Video / Reel","Mode & Drihanna","Online entdecken, persönlich beraten","","","","","","","Idee","","","","Zusätzliche Idee nach vorhandenem Material; vor Umsetzung aktuelle Ware abstimmen."],["3/31/2027","","Statisch","Mode & Drihanna","Qualität im Detail","","","","","","","Idee","","","","Zusätzliche Idee nach vorhandenem Material; vor Umsetzung aktuelle Ware abstimmen."],["4/4/2027","","Video / Reel","Ana & Persönlichkeit","Ana kombiniert","","","","","","","Idee","","","","Zusätzliche Idee nach vorhandenem Material; vor Umsetzung aktuelle Ware abstimmen."],["4/7/2027","","Statisch","Mode & Drihanna","Die Welten von Drihanna","","","","","","","Idee","","","","Zusätzliche Idee nach vorhandenem Material; vor Umsetzung aktuelle Ware abstimmen."],["4/11/2027","","Video / Reel","Mode & Drihanna","Schuhe als Ausgangspunkt","","","","","","","Idee","","","","Zusätzliche Idee nach vorhandenem Material; vor Umsetzung aktuelle Ware abstimmen."],["4/14/2027","","Statisch","Mode & Drihanna","Lieblingsstücke für den Alltag","","","","","","","Idee","","","","Zusätzliche Idee nach vorhandenem Material; vor Umsetzung aktuelle Ware abstimmen."],["4/18/2027","","Video / Reel","Mode & Drihanna","Frische Farben, neuer Look","","","","","","","Idee","","","","Zusätzliche Idee nach vorhandenem Material; vor Umsetzung aktuelle Ware abstimmen."],["4/21/2027","","Statisch","Ana & Persönlichkeit","Ana beantwortet eine Stylingfrage","","","","","","","Idee","","","","Zusätzliche Idee nach vorhandenem Material; vor Umsetzung aktuelle Ware abstimmen."]];
 
   const statusEl=document.getElementById("planStatus"), wrapEl=document.getElementById("planWrap"),
         headEl=document.getElementById("planHead"), rowsEl=document.getElementById("planRows"),
@@ -656,19 +657,22 @@ const META_ATTRIBUTED = 0;
   if(cached&&cached.rows) render(cached.rows,cached.ts);
   else hint("Redaktionsplan wird geladen \u2026");
 
+  function useFallback(){
+    if(cached&&cached.rows) return;
+    render(PLAN_FALLBACK, FALLBACK_TS);
+  }
   const url="https://docs.google.com/spreadsheets/d/"+SHEET_ID+"/gviz/tq?tqx=out:csv&gid="+SHEET_GID+"&t="+Date.now();
-  fetch(url,{cache:"no-store",credentials:"omit"})
-    .then(function(r){ if(!r.ok) throw new Error(r.status); return r.text(); })
-    .then(function(text){
-      const rows=parseCSV(text), ts=Date.now();
-      try{ localStorage.setItem(CACHE,JSON.stringify({ts:ts,rows:rows})); }catch(e){}
-      render(rows,ts);
-    })
-    .catch(function(){
-      if(cached&&cached.rows) return;
-      hint("Der Redaktionsplan ist gerade nicht erreichbar.");
-      noteEl.textContent="Beim n\u00e4chsten Aufruf wird erneut geladen.";
-    });
+  try{
+    fetch(url,{cache:"no-store",credentials:"omit"})
+      .then(function(r){ if(!r.ok) throw new Error(r.status); return r.text(); })
+      .then(function(text){
+        const rows=parseCSV(text), ts=Date.now();
+        if(!rows || rows.length<2) throw new Error("leer");
+        try{ localStorage.setItem(CACHE,JSON.stringify({ts:ts,rows:rows})); }catch(e){}
+        render(rows,ts);
+      })
+      .catch(useFallback);
+  }catch(e){ useFallback(); }
 })();
 
 /* Fahrplan */
