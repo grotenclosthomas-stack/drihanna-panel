@@ -334,7 +334,7 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
     </div>
   </div>
   <div class="scroller" style="margin-top:28px"><table>
-    <thead><tr><th>Monat</th><th>Werbung</th><th>Shop-Umsatz</th><th>Umsatz je 1&nbsp;&euro; Werbung</th><th>Werbekostenanteil</th><th>&euro; je LP-Aufruf</th></tr></thead>
+    <thead><tr><th>Monat</th><th>Werbung</th><th>Shop-Umsatz</th><th>Werbekostenanteil</th><th>&euro; je LP-Aufruf</th></tr></thead>
     <tbody id="roiRows"></tbody>
   </table></div>
   <p class="note">Werbekostenanteil = Werbeausgaben geteilt durch Shop-Umsatz im selben Monat. Im November liefen keine Anzeigen.</p>
@@ -507,21 +507,24 @@ drawChart("chart",MONTHS,"cost","lpv",500,5000,"var(--barro)","var(--oliva)",
 drawChart("shopChart",SHOP,"rev","ord",25000,500,"var(--azafran)","var(--barro)",
   v=>nf(v/1000,0)+"k€", v=>nf(v,0), v=>eur0(v), v=>nf(v,0)+" Bestellungen");
 
-/* ——— ROI Meta: Shop-Umsatz gegen Werbeausgaben ——— */
+/* ——— ROI Meta: vorbereitet, rechnet mit dem Umsatz, den Meta den Anzeigen zuordnet ———
+   Sobald Pixel/CAPI Käufe melden, hier den zugeordneten Umsatz eintragen. */
+const META_ATTRIBUTED = null;
 (function(){
   const spend = MONTHS.reduce((a,r)=>a+r.cost, 0);
-  const rev   = SHOP.reduce((a,r)=>a+r.rev, 0);
-  const roas  = rev / spend;
-  const roi   = (rev - spend) / spend * 100;
+  const has = typeof META_ATTRIBUTED === "number";
+  const roas = has ? nf(META_ATTRIBUTED/spend, 2) : "&mdash;";
+  const rev  = has ? eur0(META_ATTRIBUTED) : "&mdash;";
+  const roi  = has ? ((META_ATTRIBUTED-spend)/spend>=0?"+":"") + nf((META_ATTRIBUTED-spend)/spend*100,0) + "&nbsp;%" : "&mdash;";
   document.getElementById("roiGauge").innerHTML =
-    '<div class="top"><b>ROI Meta</b><span>M&auml;rz bis November 2026</span></div>' +
+    '<div class="top"><b>ROI Meta</b><span class="status wait" style="font-size:10px;padding:4px 10px">Vorbereitet</span></div>' +
     '<div class="legend">' +
-      '<div><div class="lab">1 &euro; Werbung brachte</div><div class="val">' + eur(roas) + '</div></div>' +
       '<div><div class="lab">Werbeausgaben</div><div class="val">' + eur0(spend) + '</div></div>' +
-      '<div><div class="lab">Shop-Umsatz</div><div class="val">' + eur0(rev) + '</div></div>' +
-      '<div><div class="lab">ROI</div><div class="val">+' + nf(roi,0) + '&nbsp;%</div></div>' +
+      '<div><div class="lab">Zugeordneter Umsatz</div><div class="val">' + rev + '</div></div>' +
+      '<div><div class="lab">ROAS</div><div class="val">' + roas + '</div></div>' +
+      '<div><div class="lab">ROI</div><div class="val">' + roi + '</div></div>' +
     '</div>' +
-    '<p class="hint">Basis: gesamter Shop-Umsatz gegen die Meta-Ausgaben, M&auml;rz bis November 2026. Die Monatswerte stehen unter <a href="#rentabilidad" style="color:inherit">Wirtschaftlichkeit</a>.</p>';
+    '<p class="hint">F&uuml;llt sich, sobald die Kaufmessung bei Meta steht und K&auml;ufe den Anzeigen zugeordnet werden.</p>';
 })();
 
 /* ——— Wirtschaftlichkeit: Werbeausgaben gegen Shop-Umsatz ——— */
@@ -547,10 +550,9 @@ drawChart("shopChart",SHOP,"rev","ord",25000,500,"var(--azafran)","var(--barro)"
   document.getElementById("roiRows").innerHTML = MONTHS.map(function(r){
     const d = byMonth[r.m] || {};
     const share = d.rev ? nf(r.cost / d.rev * 100, 2) + " %" : "—";
-    const per = r.cost ? eur((d.rev||0) / r.cost) : "—";
     const cpl = r.lpv ? eur(r.cost / r.lpv) : "—";
     const label = r.m === "Nov" ? "Nov 2026 (bis 13.11.)" : r.m + " 2026";
-    return "<tr><td>"+label+"</td><td>"+eur(r.cost)+"</td><td>"+eur0(d.rev||0)+"</td><td>"+per+"</td><td>"+share+"</td><td>"+cpl+"</td></tr>";
+    return "<tr><td>"+label+"</td><td>"+eur(r.cost)+"</td><td>"+eur0(d.rev||0)+"</td><td>"+share+"</td><td>"+cpl+"</td></tr>";
   }).join("");
 })();
 
