@@ -175,6 +175,18 @@ footer{border-top:1px solid var(--linea);background:var(--arena-2)}
 footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;font-size:12px;color:var(--tinta-soft)}
 .note{font-size:12.5px;color:var(--tinta-soft);margin-top:14px}
 #planWrap th,#planWrap td{text-align:left}
+.gauge-card{border:1px solid var(--linea);background:var(--arena);padding:22px 20px;margin-bottom:26px}
+.gauge-card .top{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 18px}
+.gauge-card .top b{font-family:var(--display);font-size:1.05rem;font-weight:600}
+.gauge-card .top span{font-size:12.5px;color:var(--tinta-soft)}
+.gauge-track{position:relative;height:16px;border-radius:999px;background:color-mix(in srgb,var(--barro) 14%,var(--arena));border:1px solid var(--linea);margin:16px 0 10px;overflow:hidden}
+.gauge-fill{position:absolute;inset:0 auto 0 0;background:var(--ok);border-radius:999px}
+.gauge-scale{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--tinta-soft)}
+.gauge-card .legend{margin:16px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px 22px}
+.gauge-card .legend div{min-width:0}
+.gauge-card .legend .lab{font-size:10.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--tinta-soft);font-weight:700}
+.gauge-card .legend .val{font-family:var(--display);font-size:1.45rem;font-weight:500;margin-top:5px;font-variant-numeric:tabular-nums}
+.gauge-card .hint{font-size:13px;color:var(--tinta-soft);margin:16px 0 0}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -233,7 +245,9 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
 
 <section class="band" id="meta"><div class="wrap">
   <div class="sec-head"><span class="es">Un a&ntilde;o</span><h2>Meta 2026 im Verlauf</h2></div>
-  <p class="lede">M&auml;rz bis Oktober 2026, eine einzige laufende Kampagne. Die Balken zeigen die Ausgaben, die Linie die Landingpage-Aufrufe.</p>
+  <p class="lede">M&auml;rz bis November 2026, eine einzige laufende Kampagne. Die Balken zeigen die Ausgaben, die Linie die Landingpage-Aufrufe.</p>
+
+  <div class="gauge-card" id="roiGauge"></div>
 
   <div class="chart-card">
     <div class="chart-legend">
@@ -491,6 +505,28 @@ drawChart("chart",MONTHS,"cost","lpv",500,5000,"var(--barro)","var(--oliva)",
 drawChart("shopChart",SHOP,"rev","ord",25000,500,"var(--azafran)","var(--barro)",
   v=>nf(v/1000,0)+"k€", v=>nf(v,0), v=>eur0(v), v=>nf(v,0)+" Bestellungen");
 
+/* ——— ROI-Anzeiger Meta: zugeordneter Umsatz gegen kumulierte Ausgaben ——— */
+/* META_ATTRIBUTED = der Umsatz, den Meta selbst den Anzeigen zuordnet.
+   Steht auf 0, solange Pixel und CAPI keine Käufe melden. */
+const META_ATTRIBUTED = 0;
+(function(){
+  const spend = MONTHS.reduce((a,r)=>a+r.cost, 0);
+  const pct = spend ? Math.min(100, META_ATTRIBUTED / spend * 100) : 0;
+  const roas = META_ATTRIBUTED && spend ? nf(META_ATTRIBUTED/spend, 2) : "—";
+  const gap = Math.max(0, spend - META_ATTRIBUTED);
+  document.getElementById("roiGauge").innerHTML =
+    '<div class="top"><b>ROI-Anzeiger Meta</b><span>Break-even bei ' + eur0(spend) + ' zugeordnetem Umsatz</span></div>' +
+    '<div class="gauge-track"><div class="gauge-fill" style="width:' + nf(pct,1).replace(",",".") + '%"></div></div>' +
+    '<div class="gauge-scale"><span>0 &euro;</span><span>' + nf(pct,0) + '&nbsp;% gedeckt</span><span>' + eur0(spend) + '</span></div>' +
+    '<div class="legend">' +
+      '<div><div class="lab">Ausgaben kumuliert</div><div class="val">' + eur0(spend) + '</div></div>' +
+      '<div><div class="lab">Von Meta zugeordnet</div><div class="val">' + eur0(META_ATTRIBUTED) + '</div></div>' +
+      '<div><div class="lab">ROAS</div><div class="val">' + roas + '</div></div>' +
+      '<div><div class="lab">Bis Break-even</div><div class="val">' + eur0(gap) + '</div></div>' +
+    '</div>' +
+    '<p class="hint">Der Balken f&uuml;llt sich mit dem Umsatz, den Meta den Anzeigen zuschreibt. Er steht bei null, weil Pixel und CAPI noch keine K&auml;ufe melden &mdash; nicht, weil die Werbung nichts gebracht h&auml;tte. Sobald die Kaufmessung steht, zeigt der Anzeiger, ab wann sich die Ausgaben getragen haben. Die vollst&auml;ndige Rechnung steht unter <a href="#rentabilidad" style="color:inherit">Wirtschaftlichkeit</a>.</p>';
+})();
+
 /* ——— Wirtschaftlichkeit: Werbeausgaben gegen Shop-Umsatz ——— */
 (function(){
   const byMonth = {};
@@ -520,90 +556,116 @@ drawChart("shopChart",SHOP,"rev","ord",25000,500,"var(--azafran)","var(--barro)"
   }).join("");
 })();
 
-/* ——— Redaktionsplan aus Google Sheet, einmal t\u00e4glich ——— */
+/* ——— Redaktionsplan: liest das Google Sheet, einmal taeglich ——— */
 (function(){
-  /* Tabelle eintragen: ID aus der Sheet-URL, Reiter-Name wie im Tabellenblatt.
-     Das Blatt muss ueber Freigeben auf "Jeder mit dem Link: Betrachter" stehen. */
-  const SHEET_ID  = "";
-  const SHEET_TAB = "Redaktionsplan";
+  const SHEET_ID = "1hxhg57OGHuDFcFMmd4KRUzKX7d3oU3P4Eyy25jHLt2M";
+  const SHEET_GID = "553549071";
+  const SHOW = 12;                       /* so viele kommende Beitraege zeigen */
+  const MAX_AGE = 24*60*60*1000;         /* einmal am Tag neu laden */
+  const CACHE = "drihanna_plan_v2";
 
-  const MAX_AGE = 24*60*60*1000;
-  const CACHE   = "drihanna_plan_v1";
-  const statusEl = document.getElementById("planStatus");
-  const wrapEl   = document.getElementById("planWrap");
-  const headEl   = document.getElementById("planHead");
-  const rowsEl   = document.getElementById("planRows");
-  const noteEl   = document.getElementById("planNote");
+  const statusEl=document.getElementById("planStatus"), wrapEl=document.getElementById("planWrap"),
+        headEl=document.getElementById("planHead"), rowsEl=document.getElementById("planRows"),
+        noteEl=document.getElementById("planNote");
 
-  function hint(text){ statusEl.innerHTML = '<div class="alert info"><div><strong>'+text+'</strong></div></div>'; }
+  function hint(t){ statusEl.innerHTML='<div class="alert info"><div><strong>'+t+'</strong></div></div>'; }
 
-  if(!SHEET_ID){
-    hint("Der Redaktionsplan wird gerade aufgesetzt.");
-    noteEl.textContent = "Sobald die Tabelle steht, erscheinen die Beitr\u00e4ge hier automatisch.";
-    return;
-  }
-
-  /* CSV mit Anf\u00fchrungszeichen, Kommas und Zeilenumbr\u00fcchen in Feldern */
   function parseCSV(text){
     const rows=[]; let row=[], cell="", q=false;
     for(let i=0;i<text.length;i++){
       const c=text[i];
-      if(q){
-        if(c==='"'){ if(text[i+1]==='"'){ cell+='"'; i++; } else q=false; }
-        else cell+=c;
-      } else if(c==='"') q=true;
+      if(q){ if(c==='"'){ if(text[i+1]==='"'){ cell+='"'; i++; } else q=false; } else cell+=c; }
+      else if(c==='"') q=true;
       else if(c===","){ row.push(cell); cell=""; }
       else if(c==="\n"){ row.push(cell); rows.push(row); row=[]; cell=""; }
       else if(c!=="\r") cell+=c;
     }
     if(cell!=="" || row.length){ row.push(cell); rows.push(row); }
-    return rows.filter(r=>r.some(v=>v.trim()!==""));
+    return rows;
   }
 
-  const STATES = {"geplant":"offen","in arbeit":"laeuft","l\u00e4uft":"laeuft","entwurf":"laeuft","freigabe":"freigabe","zur freigabe":"freigabe","ver\u00f6ffentlicht":"fertig","online":"fertig","fertig":"fertig"};
+  /* Datum kommt als M/D/YYYY aus der Tabelle */
+  function toDate(v){
+    const m=(v||"").trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    return m ? new Date(+m[3], +m[1]-1, +m[2]) : null;
+  }
+  const WD=["So","Mo","Di","Mi","Do","Fr","Sa"];
+  const esc = v => String(v==null?"":v).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  const STATES={"idee":"offen","geplant":"offen","offen":"offen","in arbeit":"laeuft","in produktion":"laeuft","entwurf":"laeuft",
+                "zur freigabe":"freigabe","freigabe":"freigabe","wartet":"freigabe",
+                "ver\u00f6ffentlicht":"fertig","online":"fertig","fertig":"fertig","geplant eingestellt":"fertig"};
 
   function render(rows, stamp){
-    if(rows.length < 2){ hint("Die Tabelle ist noch leer."); return; }
-    const head = rows[0].map(h=>h.trim());
-    const statusIdx = head.findIndex(h=>/^status$/i.test(h));
-    headEl.innerHTML = "<tr>" + head.map(h=>"<th>"+h.replace(/[<>&]/g,"")+"</th>").join("") + "</tr>";
-    rowsEl.innerHTML = rows.slice(1).map(function(r){
-      return "<tr>" + head.map(function(_,i){
-        const raw = (r[i]||"").trim();
-        const v = raw.replace(/[<>&]/g,"");
-        if(i===statusIdx && v){
-          const cls = STATES[v.toLowerCase()] || "offen";
-          return '<td><span class="st '+cls+'">'+v+"</span></td>";
-        }
-        return "<td>"+v+"</td>";
-      }).join("") + "</tr>";
+    if(!rows || rows.length<2){ hint("Die Tabelle ist noch leer."); return; }
+    /* Erste Zeile ist die Kopfzeile; ihre erste Zelle enthaelt zusaetzlich den Vorspann des Blattes. */
+    const head=rows[0].map(h=>(h||"").trim());
+    const col=function(name,fallback){
+      const i=head.findIndex(h=>h.toLowerCase()===name.toLowerCase());
+      return i>=0?i:fallback;
+    };
+    const iFormat=col("Format",2), iBereich=col("Bereich",3), iThema=col("Thema",4),
+          iEvent=col("Eventdatum",7), iLink=col("Ziel- / Buchungslink",8),
+          iStatus=col("Feed-Status",11), iHinweis=col("Hinweise / Freigabe",15);
+
+    const items=[];
+    for(let r=1;r<rows.length;r++){
+      const d=toDate(rows[r][0]);
+      if(d) items.push({d:d, r:rows[r]});
+    }
+    if(!items.length){ hint("In der Tabelle stehen noch keine Termine."); return; }
+    items.sort((a,b)=>a.d-b.d);
+
+    const today=new Date(); today.setHours(0,0,0,0);
+    let list=items.filter(x=>x.d>=today);
+    const past=items.length-list.length;
+    if(!list.length) list=items.slice(-SHOW);
+    const shown=list.slice(0,SHOW);
+
+    headEl.innerHTML="<tr><th>Termin</th><th>Format</th><th>Bereich</th><th>Thema</th><th>Status</th><th>Hinweis</th></tr>";
+    rowsEl.innerHTML=shown.map(function(x){
+      const r=x.r;
+      const datum=WD[x.d.getDay()]+", "+String(x.d.getDate()).padStart(2,"0")+"."+String(x.d.getMonth()+1).padStart(2,"0")+".";
+      const thema=esc((r[iThema]||"").trim());
+      const link=(r[iLink]||"").trim();
+      const themaCell=/^https:\/\//.test(link)
+        ? '<a href="'+esc(link)+'" target="_blank" rel="noopener" style="color:inherit">'+thema+"</a>"
+        : thema;
+      const ev=toDate(r[iEvent]);
+      const evLine=ev ? '<div style="font-size:12px;color:var(--tinta-soft);margin-top:2px">Termin am '+String(ev.getDate()).padStart(2,"0")+"."+String(ev.getMonth()+1).padStart(2,"0")+"."+ev.getFullYear()+"</div>" : "";
+      const st=(r[iStatus]||"").trim();
+      const stCell=st ? '<span class="st '+(STATES[st.toLowerCase()]||"offen")+'">'+esc(st)+"</span>" : "";
+      return "<tr><td>"+datum+"</td><td>"+esc((r[iFormat]||"").trim())+"</td><td>"+esc((r[iBereich]||"").trim())+
+             "</td><td>"+themaCell+evLine+"</td><td>"+stCell+"</td><td>"+esc((r[iHinweis]||"").trim())+"</td></tr>";
     }).join("");
-    statusEl.innerHTML = "";
-    wrapEl.hidden = false;
-    noteEl.textContent = "Stand: " + new Date(stamp).toLocaleString("de-DE",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}) + " Uhr. Gepflegt wird in der Tabelle, dieses Panel liest sie einmal am Tag neu.";
+
+    statusEl.innerHTML="";
+    wrapEl.hidden=false;
+    const rest=list.length-shown.length;
+    noteEl.innerHTML="Stand: "+new Date(stamp).toLocaleDateString("de-DE",{day:"2-digit",month:"2-digit",year:"numeric"})+
+      ". Gezeigt sind die n&auml;chsten "+shown.length+" Beitr&auml;ge"+
+      (rest>0?", geplant sind weitere "+rest:"")+
+      (past>0?"; "+past+" liegen bereits hinter uns":"")+
+      ". Gepflegt wird in der Tabelle, dieses Panel liest sie einmal am Tag neu.";
   }
 
-  let cached = null;
-  try { cached = JSON.parse(localStorage.getItem(CACHE) || "null"); } catch(e) {}
-  if(cached && cached.rows && Date.now() - cached.ts < MAX_AGE){ render(cached.rows, cached.ts); return; }
-  if(cached && cached.rows) render(cached.rows, cached.ts);
+  let cached=null;
+  try{ cached=JSON.parse(localStorage.getItem(CACHE)||"null"); }catch(e){}
+  if(cached&&cached.rows&&Date.now()-cached.ts<MAX_AGE){ render(cached.rows,cached.ts); return; }
+  if(cached&&cached.rows) render(cached.rows,cached.ts);
   else hint("Redaktionsplan wird geladen \u2026");
 
-  const url = "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
-              "/gviz/tq?tqx=out:csv&sheet=" + encodeURIComponent(SHEET_TAB) + "&t=" + Date.now();
-
-  fetch(url, {cache:"no-store"})
+  const url="https://docs.google.com/spreadsheets/d/"+SHEET_ID+"/gviz/tq?tqx=out:csv&gid="+SHEET_GID+"&t="+Date.now();
+  fetch(url,{cache:"no-store",credentials:"omit"})
     .then(function(r){ if(!r.ok) throw new Error(r.status); return r.text(); })
     .then(function(text){
-      const rows = parseCSV(text);
-      const ts = Date.now();
-      try { localStorage.setItem(CACHE, JSON.stringify({ts:ts, rows:rows})); } catch(e) {}
-      render(rows, ts);
+      const rows=parseCSV(text), ts=Date.now();
+      try{ localStorage.setItem(CACHE,JSON.stringify({ts:ts,rows:rows})); }catch(e){}
+      render(rows,ts);
     })
     .catch(function(){
-      if(cached && cached.rows) return;
+      if(cached&&cached.rows) return;
       hint("Der Redaktionsplan ist gerade nicht erreichbar.");
-      noteEl.textContent = "Beim n\u00e4chsten Aufruf wird erneut geladen.";
+      noteEl.textContent="Beim n\u00e4chsten Aufruf wird erneut geladen.";
     });
 })();
 
