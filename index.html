@@ -791,7 +791,15 @@ const META_ROI = [
       if(!r.ok) throw new Error(r.status);
       textEl.value=""; infoEl.textContent="";
       try{ localStorage.setItem("drihanna_chat_name",name); }catch(e){}
-      await load();
+      /* Eigene Nachricht sofort anzeigen — der Speicher braucht bis zu einer Minute, bis sie in der Liste auftaucht */
+      try{
+        const d=await r.json();
+        if(d && d.message){
+          const cur=JSON.parse(lastJSON||"[]");
+          cur.push(d.message);
+          render(cur);
+        }
+      }catch(e){}
     }catch(e){ infoEl.textContent="Senden fehlgeschlagen \u2014 bitte noch einmal versuchen."; }
     sendEl.disabled=false;
   });
