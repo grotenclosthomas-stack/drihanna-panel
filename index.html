@@ -843,44 +843,74 @@ function renderRenta(M,S){
 })();
 
 
-/* ——— Instagram Insights: füllt sich, sobald das Profil in Supermetrics angebunden ist ———
-   Je Post: d=Datum, t=Thema, f=Format, reach, likes, comments, saved, follows. */
-const IG_POSTS=[];
-const IG_KPIS={follower:null, neueFollower:null, reichweite:null, engagement:null};
+/* ——— Instagram Insights: lädt live über /api/instagram (Meta Graph API, Token serverseitig) ——— */
 (function(){
   const kEl=document.getElementById("igKpis");
   if(!kEl) return;
-  const fmt=v=>typeof v==="number"?nf(v,0):"&mdash;";
-  kEl.innerHTML=[
-    ['Follower', fmt(IG_KPIS.follower), 'aktueller Stand'],
-    ['Neue Follower', fmt(IG_KPIS.neueFollower), 'im gew&auml;hlten Zeitraum'],
-    ['Reichweite', fmt(IG_KPIS.reichweite), 'Summe &uuml;ber alle Beitr&auml;ge'],
-    ['Engagement', fmt(IG_KPIS.engagement), 'Likes, Kommentare, Gespeichert']
-  ].map(k=>'<div class="kpi"><div class="lab">'+k[0]+'</div><div class="val">'+k[1]+'</div><div class="cmp">'+k[2]+'</div></div>').join("");
-
   const stEl=document.getElementById("igStatus"), wrap=document.getElementById("igWrap"),
         head=document.getElementById("igHead"), rows=document.getElementById("igRows"),
         note=document.getElementById("igNote");
-  if(!IG_POSTS.length){
-    stEl.innerHTML='<div class="alert info"><div><strong>Vorbereitet.</strong><p>Sobald das Instagram-Profil von Drihanna angebunden ist, stehen hier alle Beitr&auml;ge mit Reichweite, Likes, Kommentaren und Engagement &mdash; per Klick auf die Spalten&uuml;berschriften sortier- und vergleichbar. Die ersten organischen Posts laufen seit dem 17.11.</p></div></div>';
-    return;
+  const fmt=v=>typeof v==="number"?nf(v,0):"&mdash;";
+  const esc=x=>String(x).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+  function kpis(k){
+    kEl.innerHTML=[
+      ['Follower', fmt(k.follower), 'aktueller Stand'],
+      ['Neue Follower', fmt(k.neueFollower), 'letzte 30 Tage'],
+      ['Reichweite', fmt(k.reichweite), 'Summe &uuml;ber alle Beitr&auml;ge'],
+      ['Engagement', fmt(k.engagement), 'Likes, Kommentare, Gespeichert']
+    ].map(x=>'<div class="kpi"><div class="lab">'+x[0]+'</div><div class="val">'+x[1]+'</div><div class="cmp">'+x[2]+'</div></div>').join("");
   }
-  const COLS=[["d","Datum"],["t","Beitrag"],["f","Format"],["reach","Reichweite"],["likes","Likes"],["comments","Kommentare"],["saved","Gespeichert"],["eng","Engagement"]];
-  let sortKey="d", sortDir=-1;
-  function draw(){
-    const data=IG_POSTS.map(p=>Object.assign({eng:(p.likes||0)+(p.comments||0)+(p.saved||0)},p));
-    data.sort((a,b)=>{const x=a[sortKey],y=b[sortKey];return (x<y?-1:x>y?1:0)*sortDir;});
-    head.innerHTML="<tr>"+COLS.map(c=>'<th data-k="'+c[0]+'" style="cursor:pointer">'+c[1]+(c[0]===sortKey?(sortDir<0?" \u25BE":" \u25B4"):"")+"</th>").join("")+"</tr>";
-    rows.innerHTML=data.map(p=>"<tr><td>"+p.d+"</td><td>"+p.t+"</td><td>"+p.f+"</td><td>"+nf(p.reach,0)+"</td><td>"+nf(p.likes,0)+"</td><td>"+nf(p.comments,0)+"</td><td>"+nf(p.saved,0)+"</td><td>"+nf(p.eng,0)+"</td></tr>").join("");
-    head.querySelectorAll("th").forEach(th=>th.addEventListener("click",function(){
-      const k=this.getAttribute("data-k");
-      if(k===sortKey) sortDir*=-1; else { sortKey=k; sortDir=-1; }
-      draw();
+  function prepared(msg){
+    kpis({});
+    stEl.innerHTML='<div class="alert info"><div><strong>Vorbereitet.</strong><p>'+msg+'</p></div></div>';
+  }
+
+  function render(posts){
+    const FMT={REELS:"Reel",STORY:"Story"};
+    const data=posts.map(p=>({
+      ts:p.date||"",
+      d:p.date?new Date(p.date).toLocaleDateString("de-DE",{day:"2-digit",month:"2-digit",year:"2-digit"}):"\u2014",
+      t:(p.caption||"(ohne Text)").replace(/\s+/g," ").slice(0,70),
+      link:p.permalink||"",
+      f:FMT[p.product]||(p.type==="CAROUSEL_ALBUM"?"Carousel":p.type==="VIDEO"?"Video":"Bild"),
+      views:p.views, reach:p.reach, likes:p.likes, comments:p.comments, saved:p.saved,
+      eng:(p.likes||0)+(p.comments||0)+(p.saved||0)+(p.shares||0)
     }));
+    const COLS=[["d","Datum"],["t","Beitrag"],["f","Format"],["views","Aufrufe"],["reach","Reichweite"],["likes","Likes"],["comments","Kommentare"],["saved","Gespeichert"],["eng","Engagement"]];
+    let sortKey="d", sortDir=-1;
+    function val(p,k){ if(k==="d") return p.ts; const v=p[k]; return typeof v==="number"?v:(typeof v==="string"?v:-1); }
+    function draw(){
+      data.sort((a,b)=>{const x=val(a,sortKey),y=val(b,sortKey);return (x<y?-1:x>y?1:0)*sortDir;});
+      head.innerHTML="<tr>"+COLS.map(c=>'<th data-k="'+c[0]+'" style="cursor:pointer">'+c[1]+(c[0]===sortKey?(sortDir<0?" \u25BE":" \u25B4"):"")+"</th>").join("")+"</tr>";
+      rows.innerHTML=data.map(p=>"<tr><td>"+p.d+"</td><td>"+(p.link?'<a href="'+p.link+'" target="_blank" rel="noopener">'+esc(p.t)+"</a>":esc(p.t))+"</td><td>"+p.f+"</td><td>"+fmt(p.views)+"</td><td>"+fmt(p.reach)+"</td><td>"+fmt(p.likes)+"</td><td>"+fmt(p.comments)+"</td><td>"+fmt(p.saved)+"</td><td>"+fmt(p.eng)+"</td></tr>").join("");
+      head.querySelectorAll("th").forEach(th=>th.addEventListener("click",function(){
+        const k=this.getAttribute("data-k");
+        if(k===sortKey) sortDir*=-1; else { sortKey=k; sortDir=-1; }
+        draw();
+      }));
+    }
+    draw();
+    stEl.innerHTML=""; wrap.hidden=false;
+    note.textContent="Klick auf eine Spalten\u00fcberschrift sortiert die Beitr\u00e4ge.";
   }
-  draw();
-  stEl.innerHTML=""; wrap.hidden=false;
-  note.textContent="Klick auf eine Spalten\u00fcberschrift sortiert die Beitr\u00e4ge.";
+
+  kpis({});
+  fetch("/api/instagram").then(async r=>{
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok||j.error||!Array.isArray(j.posts)) throw new Error(j.error||"err");
+    if(!j.posts.length){ prepared("Das Profil ist angebunden &mdash; sobald die ersten Beitr&auml;ge ver&ouml;ffentlicht sind, erscheinen sie hier automatisch."); return; }
+    const sum=k=>j.posts.reduce((s,p)=>s+(typeof p[k]==="number"?p[k]:0),0);
+    kpis({
+      follower:j.account&&j.account.followers,
+      neueFollower:j.follower_gain_30d,
+      reichweite:sum("reach")||null,
+      engagement:(sum("likes")+sum("comments")+sum("saved")+sum("shares"))||null
+    });
+    render(j.posts);
+  }).catch(()=>{
+    prepared("Sobald der Meta-Zugangsschl&uuml;ssel hinterlegt ist, stehen hier alle Beitr&auml;ge mit Aufrufen, Reichweite, Likes, Kommentaren und Engagement &mdash; per Klick auf die Spalten&uuml;berschriften sortier- und vergleichbar. Die ersten organischen Posts laufen seit dem 17.11.");
+  });
 })();
 
 /* Fahrplan */
