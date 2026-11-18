@@ -81,6 +81,8 @@ a{color:inherit}
 .nav .wrap::-webkit-scrollbar{display:none}
 .nav a{white-space:nowrap;text-decoration:none;font-size:11.5px;letter-spacing:.17em;text-transform:uppercase;font-weight:700;color:var(--tinta-soft);padding:7px 12px;border-radius:999px}
 .nav a:hover{color:var(--tinta);background:var(--arena-2)}
+.nav a.nav-chat{background:var(--barro);color:var(--crema,#f6eedd)}
+.nav a.nav-chat:hover{background:var(--barro);color:var(--crema,#f6eedd);opacity:.9}
 
 /* ——— Typo-Bausteine ——— */
 .sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 18px;margin-bottom:8px}
@@ -237,9 +239,8 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
 </header>
 
 <nav class="nav"><div class="wrap">
-  <a href="#pulso">Puls</a><a href="#meta">Meta 2026</a><a href="#campanas">Kampagnen</a>
-  <a href="#tienda">Shop</a><a href="#rentabilidad">Wirtschaftlichkeit</a><a href="#canales">Kan&auml;le</a>
-  <a href="#camino">Fahrplan</a><a href="#tareas">Aufgaben</a><a href="#plan">Redaktionsplan</a><a href="#chat">Chat</a><a href="#decisiones">Freigaben</a>
+  <a href="#tareas">Aufgaben</a><a href="#plan">Redaktionsplan Organic</a><a href="#camino">Fahrplan</a>
+  <a href="#canales">Kan&auml;le</a><a class="nav-chat" href="#chat">Chat</a>
 </div></nav>
 
 <section class="band" id="pulso"><div class="wrap">
@@ -412,7 +413,7 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
 
 
 <section class="band" id="plan"><div class="wrap">
-  <div class="sec-head"><span class="es">Plan editorial</span><h2>Redaktionsplan</h2></div>
+  <div class="sec-head"><span class="es">Plan editorial</span><h2>Redaktionsplan Organic</h2></div>
   <p class="lede">Gepflegt wird der Plan in einer Tabelle. Dieses Panel liest sie einmal am Tag aus, sodass hier immer der aktuelle Stand steht, ohne dass jemand etwas kopieren muss.</p>
   <div id="planStatus"></div>
   <div class="scroller" id="planWrap" hidden><table>
@@ -869,7 +870,7 @@ const TASKS=[
  {w:"Erledigt",s:"fertig",who:"Ana & Niko",t:"Rückmeldung zum Panel erhalten",d:"Die Übersicht passt; Ergänzungen wie der Redaktionsplan sind eingebaut."},
  {w:"Erledigt",s:"fertig",who:"Ana & Niko",t:"Abstimmung über WhatsApp vereinbart",d:"Kurze Abstimmungen laufen künftig über WhatsApp statt per Mail."},
  {w:"Erledigt",s:"fertig",who:"adsupply",t:"Organic-Umfang abgestimmt",d:"Umfang, Themen und Freigabeprozess sind festgelegt."},
- {w:"Erledigt",s:"fertig",who:"adsupply",t:"Redaktionsplan erstellt",d:"Plan steht bis April 2027 und ist in diesem Panel einsehbar — mit Caption und Link zum fertigen Post vor Veröffentlichung."},
+ {w:"Erledigt",s:"fertig",who:"adsupply",t:"Redaktionsplan Organic erstellt",d:"Plan steht bis April 2027 und ist in diesem Panel einsehbar — mit Caption und Link zum fertigen Post vor Veröffentlichung."},
  {w:"Erledigt",s:"fertig",who:"adsupply",t:"Organische Beiträge laufen",d:"Veröffentlichung nach Redaktionsplan hat am 17.11. begonnen."},
  {w:"Erledigt",s:"fertig",who:"adsupply",t:"Meta für den Anzeigenstart eingerichtet",d:"Werbekonto, Kampagnenstruktur und Zielgruppen stehen. Die Anzeigen können starten, sobald die Motive freigegeben sind."},
  {w:"Erledigt",s:"fertig",who:"adsupply",t:"Erste Creatives erstellt",d:"Die ersten Motive sind fertig und liegen zur Abstimmung bei euch."},
