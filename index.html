@@ -77,7 +77,7 @@ a{color:inherit}
 
 /* ——— Nav ——— */
 .nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--arena) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--linea)}
-.nav .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.nav .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:10px;scrollbar-width:none;justify-content:center}
 .nav .wrap::-webkit-scrollbar{display:none}
 .nav a{white-space:nowrap;text-decoration:none;font-size:11.5px;letter-spacing:.17em;text-transform:uppercase;font-weight:700;color:var(--tinta-soft);padding:7px 12px;border-radius:999px}
 .nav a:hover{color:var(--tinta);background:var(--arena-2)}
@@ -177,11 +177,14 @@ footer{border-top:1px solid var(--linea);background:var(--arena-2)}
 footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;font-size:12px;color:var(--tinta-soft)}
 .note{font-size:12.5px;color:var(--tinta-soft);margin-top:14px}
 #planWrap th,#planWrap td{text-align:left}
-#planWrap table{min-width:1280px}
-#planWrap td:nth-child(4),#planWrap th:nth-child(4){white-space:normal;min-width:200px}
-#planWrap td:nth-child(5),#planWrap th:nth-child(5){white-space:normal;min-width:280px}
-#planWrap td:nth-child(6),#planWrap th:nth-child(6){white-space:normal;min-width:160px}
-#planWrap td:nth-child(10),#planWrap th:nth-child(10){white-space:normal;min-width:220px}
+#plan .wrap{max-width:min(1680px,96vw)}
+#planWrap table{width:100%;table-layout:auto}
+#planWrap td,#planWrap th{white-space:normal;vertical-align:top}
+#planWrap td:first-child,#planWrap th:first-child{white-space:nowrap}
+#planWrap td:nth-child(4),#planWrap th:nth-child(4){min-width:160px}
+#planWrap td:nth-child(5),#planWrap th:nth-child(5){min-width:220px}
+#planWrap td:nth-child(10),#planWrap th:nth-child(10){min-width:180px}
+@media (max-width:900px){#planWrap{overflow-x:auto}#planWrap table{min-width:900px}}
 #planWrap details.cap summary{cursor:pointer;font-weight:600;color:var(--barro)}
 #planWrap details.cap div{white-space:pre-line;margin-top:8px;font-size:13px;color:var(--tinta-soft);max-width:420px}
 .chat-list{display:flex;flex-direction:column;gap:14px;margin:26px 0;max-height:480px;overflow-y:auto;padding-right:6px}
@@ -224,11 +227,6 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
     <div class="eyebrow">Panel de mando &middot; Stand 2. November 2026</div>
     <h1>Hola,<br><em>Colonia.</em></h1>
     <p class="hero-sub">Spanisches Lebensgef&uuml;hl in K&ouml;ln-Dellbr&uuml;ck &mdash; Store, Events und Onlineshop in einer Zahlen- und Aufgabenansicht.</p>
-    <div class="hero-pills">
-      <a class="pill" href="#pulso">Der Puls</a>
-      <a class="pill" href="#tienda">Shop</a>
-      <a class="pill" href="#tareas">Aufgaben</a>
-    </div>
     <div class="dots"><i></i><i class="on"></i><i></i></div>
   </div>
   <div class="hero-foot"><div class="wrap">
@@ -416,7 +414,7 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
   <div class="sec-head"><span class="es">Plan editorial</span><h2>Redaktionsplan Organic</h2></div>
   <p class="lede">Gepflegt wird der Plan in einer Tabelle. Dieses Panel liest sie einmal am Tag aus, sodass hier immer der aktuelle Stand steht, ohne dass jemand etwas kopieren muss.</p>
   <div id="planStatus"></div>
-  <div class="scroller" id="planWrap" hidden><table>
+  <div id="planWrap" hidden><table>
     <thead id="planHead"></thead>
     <tbody id="planRows"></tbody>
   </table></div>
@@ -431,7 +429,7 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
   <form id="chatForm" class="chat-form" hidden>
     <div class="row1">
       <input id="chatName" type="text" maxlength="40" placeholder="Dein Name" required>
-      <select id="chatTopic"><option value="">Allgemein</option></select>
+      <select id="chatTopic"></select>
     </div>
     <textarea id="chatText" maxlength="1000" rows="3" placeholder="Nachricht schreiben &hellip;" required></textarea>
     <div class="row2"><span id="chatInfo" class="note" style="margin:0"></span><button type="submit" id="chatSend">Senden</button></div>
