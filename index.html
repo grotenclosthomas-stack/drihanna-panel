@@ -83,6 +83,9 @@ a{color:inherit}
 .nav a:hover{color:var(--tinta);background:var(--arena-2)}
 .nav a.nav-chat{background:var(--barro);color:var(--crema,#f6eedd)}
 .nav a.nav-chat:hover{background:var(--barro);color:var(--crema,#f6eedd);opacity:.9}
+.nav-period{display:flex;align-items:center;justify-content:center;gap:10px;padding-block:0 10px}
+.nav-period .np-lab{font-size:10.5px;letter-spacing:.17em;text-transform:uppercase;font-weight:700;color:var(--tinta-soft)}
+.nav-period select{background:var(--arena);border:1px solid var(--linea);color:inherit;font:inherit;font-size:12.5px;padding:5px 10px;border-radius:999px}
 
 /* ——— Typo-Bausteine ——— */
 .sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 18px;margin-bottom:8px}
@@ -238,8 +241,15 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
 
 <nav class="nav"><div class="wrap">
   <a href="#tareas">Aufgaben</a><a href="#plan">Redaktionsplan Organic</a><a href="#camino">Fahrplan</a>
-  <a href="#canales">Kan&auml;le</a><a class="nav-chat" href="#chat">Chat</a>
-</div></nav>
+  <a href="#instagram">Instagram</a><a href="#klaviyo">Klaviyo</a><a class="nav-chat" href="#chat">Chat</a>
+</div>
+<div class="wrap nav-period">
+  <span class="np-lab">Zeitraum</span>
+  <select id="perFrom" aria-label="Zeitraum von"></select>
+  <span class="np-lab">bis</span>
+  <select id="perTo" aria-label="Zeitraum bis"></select>
+</div>
+</nav>
 
 <section class="band" id="pulso"><div class="wrap">
   <div class="sec-head"><span class="es">El pulso</span><h2>Meta, letzte 30 Tage</h2></div>
@@ -333,7 +343,7 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
 
 <section class="band" id="rentabilidad"><div class="wrap">
   <div class="sec-head"><span class="es">Rentabilidad</span><h2>Was die Werbung kostet, was der Shop bringt</h2></div>
-  <p class="lede">M&auml;rz bis 13.&nbsp;November&nbsp;2026. Die Werbeausgaben stammen aus dem Meta-Werbekonto, der Umsatz aus Shopify.</p>
+  <p class="lede">Der Zeitraum folgt der Auswahl oben in der Leiste. Die Werbeausgaben stammen aus dem Meta-Werbekonto, der Umsatz aus Shopify; der November ist bis zum 13.11. erfasst.</p>
   <div class="kpis" id="roiKpis"></div>
   <div class="alert" style="margin-top:28px">
     <div>
@@ -349,36 +359,7 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
   <p class="note">Werbekostenanteil = Werbeausgaben geteilt durch Shop-Umsatz im selben Monat. Im November liefen keine Anzeigen.</p>
 </div></section>
 
-<section class="band" id="canales"><div class="wrap">
-  <div class="sec-head"><span class="es">Canales</span><h2>Datenquellen</h2></div>
-  <p class="lede">Alle vier Quellen sind angebunden. Meta und Shopify liefern bereits Zahlen. Search Console und GA4 wurden am 06.11.2026 scharf geschaltet &mdash; sie z&auml;hlen ab diesem Tag und erscheinen mit den ersten Werten im n&auml;chsten Panel-Stand.</p>
-  <div class="channels">
-    <div class="channel">
-      <span class="status live">Angebunden</span>
-      <h3>Meta Ads</h3>
-      <p style="margin:0;color:var(--tinta-soft);font-size:14px">Werbekonto Drihanna. Wird von adsupply zu jedem Panel-Stand aktualisiert.</p>
-      <ul><li>Ausgaben, Reichweite, Frequenz</li><li>Link-Klicks, CTR, Klickpreis</li><li>Landingpage-Aufrufe und Kosten je Aufruf</li><li>K&auml;ufe und Kaufwert, sobald die Messung greift</li></ul>
-    </div>
-    <div class="channel">
-      <span class="status live">Angebunden</span>
-      <h3>Shopify</h3>
-      <p style="margin:0;color:var(--tinta-soft);font-size:14px">Store Drihanna. Umsatz, Bestellungen und Artikel auf Tagesebene.</p>
-      <ul><li>Umsatz und Bestellungen je Monat</li><li>Durchschnittlicher Bestellwert</li><li>Artikel je Bestellung</li><li>Umsatz je Artikel und Event</li></ul>
-    </div>
-    <div class="channel">
-      <span class="status live">Angebunden</span>
-      <h3>Google Search Console</h3>
-      <p style="margin:0;color:var(--tinta-soft);font-size:14px">Property f&uuml;r www.drihanna.de seit 06.11.2026 best&auml;tigt. Die Suche z&auml;hlt ab diesem Tag, die ersten Werte stehen nach rund drei Tagen zur Verf&uuml;gung.</p>
-      <ul><li>Impressionen und Klicks aus der Suche</li><li>Durchschnittliche Position</li><li>Suchbegriffe mit lokalem Bezug (K&ouml;ln, Dellbr&uuml;ck, spanische Mode)</li><li>Seiten mit der meisten Sichtbarkeit</li></ul>
-    </div>
-    <div class="channel">
-      <span class="status live">Angebunden</span>
-      <h3>Google Analytics 4</h3>
-      <p style="margin:0;color:var(--tinta-soft);font-size:14px">Property f&uuml;r drihanna.de l&auml;uft seit 06.11.2026. Gemessen wird erst nach Zustimmung im Cookie-Banner &mdash; gepr&uuml;ft und best&auml;tigt.</p>
-      <ul><li>Sitzungen nach Quelle und Medium</li><li>Eventbuchungen und Produktk&auml;ufe</li><li>Warenkorbwert und Conversion Rate</li><li>Abgleich mit Shopify, damit nichts doppelt z&auml;hlt</li></ul>
-    </div>
-  </div>
-</div></section>
+
 
 <section class="band" id="camino"><div class="wrap">
   <div class="sec-head"><span class="es">El camino</span><h2>Vier Stufen bis Oktober 2027</h2></div>
@@ -409,6 +390,33 @@ footer .wrap{padding-block:30px;display:flex;flex-wrap:wrap;gap:12px 24px;justif
     <tbody id="planRows"></tbody>
   </table></div>
   <p class="note" id="planNote"></p>
+</div></section>
+
+<section class="band" id="instagram"><div class="wrap">
+  <div class="sec-head"><span class="es">Comunidad</span><h2>Instagram Insights</h2></div>
+  <p class="lede">Likes, Reichweite, neue Follower und Engagement je Beitrag &mdash; sortierbar, damit sich die Posts direkt vergleichen lassen.</p>
+  <div class="kpis" id="igKpis"></div>
+  <div id="igStatus" style="margin-top:26px"></div>
+  <div class="scroller" id="igWrap" hidden><table>
+    <thead id="igHead"></thead>
+    <tbody id="igRows"></tbody>
+  </table></div>
+  <p class="note" id="igNote"></p>
+</div></section>
+
+<section class="band" id="klaviyo"><div class="wrap">
+  <div class="sec-head"><span class="es">Newsletter</span><h2>Klaviyo</h2></div>
+  <p class="lede">Newsletterversand &uuml;ber Klaviyo &mdash; die Kennzahlen erscheinen hier mit der ersten Kampagne.</p>
+  <div class="kpis">
+    <div class="kpi"><div class="lab">Empf&auml;nger</div><div class="val">&mdash;</div><div class="cmp">Kontakte mit Newsletter-Einwilligung</div></div>
+    <div class="kpi"><div class="lab">&Ouml;ffnungsrate</div><div class="val">&mdash;</div><div class="cmp">je Kampagne</div></div>
+    <div class="kpi"><div class="lab">Klickrate</div><div class="val">&mdash;</div><div class="cmp">je Kampagne</div></div>
+    <div class="kpi"><div class="lab">Abmeldungen</div><div class="val">&mdash;</div><div class="cmp">je Kampagne</div></div>
+    <div class="kpi"><div class="lab">Umsatz aus Mails</div><div class="val">&mdash;</div><div class="cmp">sobald die Shop-Zuordnung steht</div></div>
+  </div>
+  <div class="alert info" style="margin-top:26px"><div><strong>Vorbereitet.</strong>
+    <p>Der Zugang zum Klaviyo-Konto liegt bei adsupply. Mit dem ersten Versand f&uuml;llen sich die Kacheln, dazu kommt eine Liste der Kampagnen mit Empf&auml;ngern, &Ouml;ffnungen und Klicks.</p>
+  </div></div>
 </div></section>
 
 <section class="band" id="chat"><div class="wrap">
@@ -526,10 +534,39 @@ function drawChart(id,rows,barKey,lineKey,barMax,lineMax,barColor,lineColor,barF
   s+=`<line x1="${L}" y1="${T+ih}" x2="${L+iw}" y2="${T+ih}" stroke="var(--linea-stark)" stroke-width="1"/>`;
   document.getElementById(id).innerHTML=s;
 }
-drawChart("chart",MONTHS,"cost","lpv",500,5000,"var(--barro)","var(--oliva)",
+function renderCharts(M,S){
+  drawChart("chart",M,"cost","lpv",500,5000,"var(--barro)","var(--oliva)",
   v=>nf(v,0)+"€", v=>nf(v,0), v=>eur(v), v=>nf(v,0)+" LP-Aufrufe");
-drawChart("shopChart",SHOP,"rev","ord",25000,500,"var(--azafran)","var(--barro)",
+  drawChart("shopChart",S,"rev","ord",25000,500,"var(--azafran)","var(--barro)",
   v=>nf(v/1000,0)+"k€", v=>nf(v,0), v=>eur0(v), v=>nf(v,0)+" Bestellungen");
+}
+
+let PERIOD={from:0,to:MONTHS.length-1};
+function applyPeriod(){
+  const M=MONTHS.slice(PERIOD.from,PERIOD.to+1);
+  const S=SHOP.slice(PERIOD.from,PERIOD.to+1);
+  renderCharts(M,S);
+  renderRoi(M);
+  renderRenta(M,S);
+}
+window.addEventListener("DOMContentLoaded",function(){
+  const f=document.getElementById("perFrom"), t=document.getElementById("perTo");
+  if(!f||!t) return;
+  MONTHS.forEach(function(r,i){
+    const l=r.m+" 26";
+    const o1=document.createElement("option"); o1.value=i; o1.textContent=l; f.appendChild(o1);
+    const o2=document.createElement("option"); o2.value=i; o2.textContent=l; t.appendChild(o2);
+  });
+  f.value=0; t.value=MONTHS.length-1;
+  function onCh(){
+    let a=+f.value,b=+t.value;
+    if(a>b){ if(this===f){ b=a; t.value=b; } else { a=b; f.value=a; } }
+    PERIOD={from:a,to:b};
+    applyPeriod();
+  }
+  f.addEventListener("change",onCh); t.addEventListener("change",onCh);
+});
+window.addEventListener("DOMContentLoaded",applyPeriod);
 
 /* ——— ROI Meta: vorbereitet, rechnet mit dem Umsatz, den Meta den Anzeigen zuordnet ———
    Pflege je Monat: cost = Meta-Ausgaben des Monats, rev = von Meta zugeordneter Umsatz.
@@ -537,8 +574,8 @@ drawChart("shopChart",SHOP,"rev","ord",25000,500,"var(--azafran)","var(--barro)"
 const META_ROI = [
  {m:"Nov 26", cost:0, rev:null}
 ];
-(function(){
-  const spendAll = MONTHS.reduce((a,r)=>a+r.cost, 0);
+function renderRoi(M){
+  const spend = M.reduce((a,r)=>a+r.cost, 0);
   const rows = META_ROI.map(function(r){
     const has = typeof r.rev === "number" && r.cost > 0;
     const roas = has ? nf(r.rev/r.cost,2) : "&mdash;";
@@ -552,7 +589,7 @@ const META_ROI = [
   document.getElementById("roiGauge").innerHTML =
     '<div class="top"><b>ROI Meta</b><span class="status wait" style="font-size:10px;padding:4px 10px">Vorbereitet</span></div>' +
     '<div class="legend">' +
-      '<div><div class="lab">Ausgaben seit M&auml;rz</div><div class="val">' + eur0(spendAll) + '</div></div>' +
+      '<div><div class="lab">Ausgaben im Zeitraum</div><div class="val">' + eur0(spend) + '</div></div>' +
       '<div><div class="lab">Zugeordneter Umsatz</div><div class="val">' + (hasT?eur0(sumR):"&mdash;") + '</div></div>' +
       '<div><div class="lab">ROAS</div><div class="val">' + (hasT?nf(sumR/sumC,2):"&mdash;") + '</div></div>' +
       '<div><div class="lab">ROI</div><div class="val">' + (hasT?((sumR-sumC)/sumC>=0?"+":"")+nf((sumR-sumC)/sumC*100,0)+"&nbsp;%":"&mdash;") + '</div></div>' +
@@ -561,36 +598,37 @@ const META_ROI = [
       '<thead><tr><th>Monat</th><th>Ausgaben</th><th>Zugeordneter Umsatz</th><th>ROAS</th><th>ROI</th></tr></thead>' +
       '<tbody>' + rows + '</tbody></table></div>' +
     '<p class="hint">Je Monat ab dem Neustart im November; Dezember, Januar usw. kommen laufend dazu. F&uuml;llt sich, sobald die Kaufmessung bei Meta steht und K&auml;ufe den Anzeigen zugeordnet werden.</p>';
-})();
+}
 
-/* ——— Wirtschaftlichkeit: Werbeausgaben gegen Shop-Umsatz ——— */
-(function(){
+/* ——— Wirtschaftlichkeit: Werbeausgaben gegen Shop-Umsatz (über den gewählten Zeitraum) ——— */
+function renderRenta(M,S){
   const byMonth = {};
-  SHOP.forEach(r => byMonth[r.m] = { rev:r.rev, ord:r.ord });
-  MONTHS.forEach(r => { byMonth[r.m] = Object.assign(byMonth[r.m] || {rev:0,ord:0}, {cost:r.cost, lpv:r.lpv}); });
+  S.forEach(r => byMonth[r.m] = { rev:r.rev, ord:r.ord });
+  M.forEach(r => { byMonth[r.m] = Object.assign(byMonth[r.m] || {rev:0,ord:0}, {cost:r.cost, lpv:r.lpv}); });
 
-  const spend = MONTHS.reduce((a,r)=>a+r.cost, 0);
-  const rev   = SHOP.reduce((a,r)=>a+r.rev, 0);
-  const ord   = SHOP.reduce((a,r)=>a+r.ord, 0);
-  const lpv   = MONTHS.reduce((a,r)=>a+r.lpv, 0);
+  const spend = M.reduce((a,r)=>a+r.cost, 0);
+  const rev   = S.reduce((a,r)=>a+r.rev, 0);
+  const ord   = S.reduce((a,r)=>a+r.ord, 0);
+  const lpv   = M.reduce((a,r)=>a+r.lpv, 0);
+  const range = M.length ? (M[0].m + " bis " + M[M.length-1].m + " 2026") : "";
 
   document.getElementById("roiKpis").innerHTML = [
-    ['Werbeausgaben', eur0(spend), 'M&auml;rz bis November, Meta'],
+    ['Werbeausgaben', eur0(spend), range + ', Meta'],
     ['Shop-Umsatz', eur0(rev), nf(ord,0) + ' Bestellungen'],
-    ['Werbekostenanteil', nf(spend/rev*100,1) + '&nbsp;%', 'Werbung gemessen am Shop-Umsatz'],
-    ['Kosten je LP-Aufruf', eur(spend/lpv), nf(lpv,0) + ' Aufrufe insgesamt'],
+    ['Werbekostenanteil', rev ? nf(spend/rev*100,1) + '&nbsp;%' : '&mdash;', 'Werbung gemessen am Shop-Umsatz'],
+    ['Kosten je LP-Aufruf', lpv ? eur(spend/lpv) : '&mdash;', nf(lpv,0) + ' Aufrufe insgesamt'],
     ['Zugeordneter Umsatz', '0&nbsp;&euro;', '<span class="trend fl">Messung offen</span> &middot; Meta z&auml;hlt keine K&auml;ufe'],
-    ['&Oslash; Bestellwert', eur(rev/ord), 'Laden, Events und Shop zusammen']
+    ['&Oslash; Bestellwert', ord ? eur(rev/ord) : '&mdash;', 'Laden, Events und Shop zusammen']
   ].map(k => '<div class="kpi"><div class="lab">'+k[0]+'</div><div class="val">'+k[1]+'</div><div class="cmp">'+k[2]+'</div></div>').join("");
 
-  document.getElementById("roiRows").innerHTML = MONTHS.map(function(r){
+  document.getElementById("roiRows").innerHTML = M.map(function(r){
     const d = byMonth[r.m] || {};
     const share = d.rev ? nf(r.cost / d.rev * 100, 2) + " %" : "—";
     const cpl = r.lpv ? eur(r.cost / r.lpv) : "—";
     const label = r.m === "Nov" ? "Nov 2026 (bis 13.11.)" : r.m + " 2026";
     return "<tr><td>"+label+"</td><td>"+eur(r.cost)+"</td><td>"+eur0(d.rev||0)+"</td><td>"+share+"</td><td>"+cpl+"</td></tr>";
   }).join("");
-})();
+}
 
 /* ——— Redaktionsplan: liest das Google Sheet, einmal taeglich ——— */
 (function(){
@@ -802,6 +840,47 @@ const META_ROI = [
 (function(){
   const el=document.getElementById("standHeute");
   if(el) el.textContent="Stand "+new Date().toLocaleDateString("de-DE",{day:"numeric",month:"long",year:"numeric"});
+})();
+
+
+/* ——— Instagram Insights: füllt sich, sobald das Profil in Supermetrics angebunden ist ———
+   Je Post: d=Datum, t=Thema, f=Format, reach, likes, comments, saved, follows. */
+const IG_POSTS=[];
+const IG_KPIS={follower:null, neueFollower:null, reichweite:null, engagement:null};
+(function(){
+  const kEl=document.getElementById("igKpis");
+  if(!kEl) return;
+  const fmt=v=>typeof v==="number"?nf(v,0):"&mdash;";
+  kEl.innerHTML=[
+    ['Follower', fmt(IG_KPIS.follower), 'aktueller Stand'],
+    ['Neue Follower', fmt(IG_KPIS.neueFollower), 'im gew&auml;hlten Zeitraum'],
+    ['Reichweite', fmt(IG_KPIS.reichweite), 'Summe &uuml;ber alle Beitr&auml;ge'],
+    ['Engagement', fmt(IG_KPIS.engagement), 'Likes, Kommentare, Gespeichert']
+  ].map(k=>'<div class="kpi"><div class="lab">'+k[0]+'</div><div class="val">'+k[1]+'</div><div class="cmp">'+k[2]+'</div></div>').join("");
+
+  const stEl=document.getElementById("igStatus"), wrap=document.getElementById("igWrap"),
+        head=document.getElementById("igHead"), rows=document.getElementById("igRows"),
+        note=document.getElementById("igNote");
+  if(!IG_POSTS.length){
+    stEl.innerHTML='<div class="alert info"><div><strong>Vorbereitet.</strong><p>Sobald das Instagram-Profil von Drihanna angebunden ist, stehen hier alle Beitr&auml;ge mit Reichweite, Likes, Kommentaren und Engagement &mdash; per Klick auf die Spalten&uuml;berschriften sortier- und vergleichbar. Die ersten organischen Posts laufen seit dem 17.11.</p></div></div>';
+    return;
+  }
+  const COLS=[["d","Datum"],["t","Beitrag"],["f","Format"],["reach","Reichweite"],["likes","Likes"],["comments","Kommentare"],["saved","Gespeichert"],["eng","Engagement"]];
+  let sortKey="d", sortDir=-1;
+  function draw(){
+    const data=IG_POSTS.map(p=>Object.assign({eng:(p.likes||0)+(p.comments||0)+(p.saved||0)},p));
+    data.sort((a,b)=>{const x=a[sortKey],y=b[sortKey];return (x<y?-1:x>y?1:0)*sortDir;});
+    head.innerHTML="<tr>"+COLS.map(c=>'<th data-k="'+c[0]+'" style="cursor:pointer">'+c[1]+(c[0]===sortKey?(sortDir<0?" \u25BE":" \u25B4"):"")+"</th>").join("")+"</tr>";
+    rows.innerHTML=data.map(p=>"<tr><td>"+p.d+"</td><td>"+p.t+"</td><td>"+p.f+"</td><td>"+nf(p.reach,0)+"</td><td>"+nf(p.likes,0)+"</td><td>"+nf(p.comments,0)+"</td><td>"+nf(p.saved,0)+"</td><td>"+nf(p.eng,0)+"</td></tr>").join("");
+    head.querySelectorAll("th").forEach(th=>th.addEventListener("click",function(){
+      const k=this.getAttribute("data-k");
+      if(k===sortKey) sortDir*=-1; else { sortKey=k; sortDir=-1; }
+      draw();
+    }));
+  }
+  draw();
+  stEl.innerHTML=""; wrap.hidden=false;
+  note.textContent="Klick auf eine Spalten\u00fcberschrift sortiert die Beitr\u00e4ge.";
 })();
 
 /* Fahrplan */
